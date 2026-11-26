@@ -4,6 +4,8 @@
 
 실제 주행 이미지에서 도로를 분할하는 79,569개 파라미터의 CNN을 학습하고, 같은 가중치를 FP32·완전 정수 INT8 TFLite로 변환했다. 동일한 평가 62장에서 INT8은 모델 파일을 **71.2%** 줄이고 이 CPU의 순수 추론 지연시간 중앙값을 **56.0%** 줄였다. 원본 장면의 도로 IoU는 77.33%와 77.55%였다. 공개 데모는 **저장된 추론 결과를 재생**한다.
 
+**지원자 직접 실험 · INT8 보정 이미지는 몇 장 필요한가?** 같은 가중치와 평가 62장을 고정하고 보정 3·9·26장을 비교했다. 도로 유형별로 한 장씩 고른 3장은 세 시드 모두 26장 기준 대비 전체 도로 IoU 하락 허용폭 0.5%p를 충족했다. 개별 장면 `umm_000083`에서는 3장 모델의 IoU가 1.75%p 낮아졌다. [장면 비교와 실험 결과](artifacts/calibration/README.md) · [7개 조건 원시 CSV](artifacts/calibration/runs.csv)
+
 ![FP32와 INT8의 도로 경계 및 실측 비교](artifacts/checks/desktop-preview.png)
 
 | 평가 및 실행 조건 | FP32 | INT8 |
@@ -75,8 +77,8 @@ python tests/browser_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 ```
 
-단위·회귀 검사 19개가 통과했다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [테스트 출력](artifacts/checks/pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
+기준 모델의 단위·회귀 검사 19개가 통과했다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [테스트 출력](artifacts/checks/pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
 
 ## 출처와 기여
 
-사용자는 과제와 기준을 정하고 GitHub 저장소를 개설했다. Codex가 이번 프로젝트의 소스·실험·검증·데모를 제작했다. 기존 저장소 6곳은 커밋 고정 코드·테스트·결과·데모를 조사해 실험 방법을 참고했다. [공고와 역할 기록](docs/brief.md) · [선행 저장소 비교](docs/prior.md) · [국내외 디자인·모델군 조사](docs/references.md) · [KITTI 데이터 이용 조건](NOTICE.md)
+지원자는 과제와 기준을 정하고 저장소를 개설했으며, [보정 장수 비교 실험](artifacts/calibration/README.md)을 설계·구현하고 결과를 검산했다. Codex는 기준 모델·벤치마크·데모를 제작하고, 지원자 실험을 재현해 공개 버전에 통합했다. 기존 저장소 6곳은 커밋 고정 코드·테스트·결과·데모를 조사해 실험 방법을 참고했다. [공고와 역할 기록](docs/brief.md) · [선행 저장소 비교](docs/prior.md) · [국내외 디자인·모델군 조사](docs/references.md) · [KITTI 데이터 이용 조건](NOTICE.md)

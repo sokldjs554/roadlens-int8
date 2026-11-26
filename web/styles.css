@@ -180,6 +180,15 @@ h2 {
   letter-spacing: -.075em;
 }
 
+.calibration-link {
+  display: inline-block;
+  margin-top: .5rem;
+  font-size: .9375rem;
+  color: #c1ceff;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
 .subtitle {
   font-size: 14px;
   color: #bfcae7;

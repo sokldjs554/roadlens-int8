@@ -58,3 +58,25 @@ def build_split(archive, mapping):
     split = {p: sorted(id for drive in ds for id in by_drive[drive]) for p, ds in selected.items()}
     split["drives"] = {p: sorted(ds) for p, ds in selected.items()}
     return split
+
+
+def select_calibration_ids(cal_ids, count, seed):
+    """Sample a repeatable prefix, starting with one image of each road type."""
+    if len(set(cal_ids)) != len(cal_ids):
+        raise ValueError("Calibration IDs must be unique")
+    if not len(CLASSES) <= count <= len(cal_ids):
+        raise ValueError("Choose at least one image per type and at most the full set")
+    groups = {kind: [] for kind in CLASSES}
+    for image_id in sorted(cal_ids):
+        kind = image_id.split("_", 1)[0]
+        if kind not in groups:
+            raise ValueError(f"Unknown road type in {image_id}")
+        groups[kind].append(image_id)
+    if not all(groups.values()):
+        raise ValueError("Calibration requires um, umm and uu images")
+
+    rng = random.Random(seed)
+    first = [rng.choice(groups[kind]) for kind in CLASSES]
+    rest = sorted(set(cal_ids).difference(first))
+    rng.shuffle(rest)
+    return (first + rest)[:count]
