@@ -21,3 +21,11 @@
 ![umm_000083 입력, 정답, 두 보정 조건의 도로 마스크 및 차이](scene.jpg)
 
 [보정 ID와 순서](selected_ids.json) · [7회 실행 결과](runs.csv) · [434개 장면별 원시 결과](scenes.csv) · [판정과 입력 해시](result.json) · [KITTI 출처 및 이용 조건](../../NOTICE.md)
+
+## 독립 재검산
+
+원래 명령으로 새 디렉터리에 재실행했을 때 선택 ID, 두 CSV, 판정 JSON, 장면 이미지까지 다섯 파일이 이전 커밋과 바이트 단위로 일치했다. 아래 검사는 같은 Keras 가중치에서 모델 7개를 다시 변환하고 TFLite 출력 정수값에서 직접 도로 마스크를 만든다. 유효 픽셀에서 정답·예측 조합 네 가지를 세어 장면별 결과 434행, 전체와 UU의 IoU, 0.5%p 판정 및 최대 차이 장면을 확인했다. 26장 모델은 v1.0.1의 `int8.tflite`와 파일 자체가 같았다.
+
+```bash
+python -m scripts.verify_calibration --archive work/data/data_road.zip
+```
