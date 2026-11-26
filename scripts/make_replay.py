@@ -1,4 +1,4 @@
-"""Encode the saved KITTI gallery as six three-second comparison cards."""
+"""Encode the saved KITTI gallery as six comparison cards followed by a three-second benchmark summary."""
 import json
 import subprocess
 import tempfile
@@ -36,16 +36,48 @@ def card(scene, index, total):
     return image
 
 
+def summary(benchmark):
+    fp = benchmark["models"]["fp32"]
+    quant = benchmark["models"]["int8"]
+    latency_drop = 100 * (1 - quant["p50_ms"] / fp["p50_ms"])
+    size_drop = 100 * (1 - quant["bytes"] / fp["bytes"])
+    lines = [
+        f"자체 평가 {benchmark['n']}장 · 도로 IoU {fp['iou']:.2%} → {quant['iou']:.2%}",
+        f"CPU 순수 추론 p50 {fp['p50_ms']:.3f} → {quant['p50_ms']:.3f}ms · {latency_drop:.1f}% 감소",
+        f"모델 파일 크기 {size_drop:.1f}% 감소",
+    ]
+    image = Image.new("RGB", (1280, 640), "#10172e")
+    draw = ImageDraw.Draw(image)
+    draw.text((48, 48), "결과 요약   /   FP32 → INT8", font=font(33, True), fill="#afbcff")
+    body = font(50, True)
+    for text, y in zip(lines, (153, 263, 373)):
+        if draw.textbbox((48, y), text, font=body)[2] > image.width - 32:
+            raise ValueError(f"Summary line exceeds video safe area: {text}")
+        draw.text((48, y), text, font=body, fill="#f2f5ff")
+    return image
+
+
+def encode_cards(pattern, destination):
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", "1/3", "-i", str(pattern),
+                    "-vf", "fps=24", "-c:v", "libx264", "-crf", "19", "-pix_fmt", "yuv420p",
+                    "-movflags", "+faststart", str(destination)], check=True)
+
+
 def main():
     scenes = json.loads((WEB / "results.json").read_text())["scenes"]
+    benchmark = json.loads((WEB.parent / "artifacts" / "benchmark.json").read_text())
     with tempfile.TemporaryDirectory(dir=WEB) as tmp:
         stage = Path(tmp)
         for i, scene in enumerate(scenes):
             card(scene, i, len(scenes)).save(stage / f"{i:03}.png")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", "1/3", "-i",
-                        str(stage / "%03d.png"), "-vf", "fps=24", "-c:v", "libx264",
-                        "-crf", "19", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
-                        str(stage / "roadlens-replay.mp4")], check=True)
+        encode_cards(stage / "%03d.png", stage / "scenes.mp4")
+        summary(benchmark).save(stage / "summary-000.png")
+        encode_cards(stage / "summary-%03d.png", stage / "summary.mp4")
+        # Keep the original scene frames intact and start the summary on a keyframe.
+        (stage / "clips.txt").write_text("file 'scenes.mp4'\nfile 'summary.mp4'\n")
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-i", "clips.txt",
+                        "-c", "copy", "-movflags", "+faststart", "roadlens-replay.mp4"],
+                       cwd=stage, check=True)
         (stage / "roadlens-replay.mp4").replace(WEB / "roadlens-replay.mp4")
 
 
