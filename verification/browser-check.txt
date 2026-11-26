@@ -1,0 +1,3 @@
+Chromium 156 · Playwright 1.62 · sha256-verified download of the public release (loopback replay)
+1365×850: 6 scenes, four modes, slider, metrics and navigation passed
+360×760: 6 scenes, four modes, slider, metrics and navigation passed
