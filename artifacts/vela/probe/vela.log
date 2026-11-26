@@ -1,0 +1,57 @@
+Warning: Unsupported TensorFlow Lite semantics for DEQUANTIZE 'tfl.dequantize'. Placing on CPU instead
+ - Input(s), Output and Weight tensors must have quantization parameters
+   Op has tensors with missing quantization parameters: tfl.dequantize
+Warning: Unsupported TensorFlow Lite semantics for SIN 'Sin'. Placing on CPU instead
+ - Input(s), Output and Weight tensors must have quantization parameters
+   Op has tensors with missing quantization parameters: Sin
+Warning: Unsupported TensorFlow Lite semantics for QUANTIZE 'tfl.quantize'. Placing on CPU instead
+ - Input(s), Output and Weight tensors must have quantization parameters
+   Op has tensors with missing quantization parameters: Sin
+
+################################################################################
+Performance for NPU Subgraph main_split_1
+TFLite_operator      NNG Operator         SRAM Usage  Peak%  Op Cycles Network%        NPU    SRAM AC    DRAM AC OnFlash AC OffFlash AC  MAC Count Network%  Util% Name                 
+-------------------- -------------------- ---------- ------ ---------- -------- ---------- ---------- ---------- ---------- ----------- ---------- -------- ------ -------------------- 
+CONV_2D              Conv2DBias                  160  25.00        296    50.00        296         64          0          0           0         64    50.00   0.17 Conv2D               
+
+################################################################################
+Performance for NPU Subgraph main_split_2
+TFLite_operator      NNG Operator         SRAM Usage  Peak%  Op Cycles Network%        NPU    SRAM AC    DRAM AC OnFlash AC OffFlash AC  MAC Count Network%  Util% Name                 
+-------------------- -------------------- ---------- ------ ---------- -------- ---------- ---------- ---------- ---------- ----------- ---------- -------- ------ -------------------- 
+CONV_2D              Conv2DBias                  160  25.00        296    50.00        296         64          0          0           0         64    50.00   0.17 Identity             
+
+Network summary for sin_probe
+Accelerator configuration               Ethos_U55_128
+System configuration             Ethos_U55_High_End_Embedded
+Memory mode                               Shared_Sram
+Accelerator clock                                 500 MHz
+Design peak SRAM bandwidth                       3.73 GB/s
+Design peak Off-chip Flash bandwidth             0.47 GB/s
+
+Total SRAM used                                  0.62 KiB
+Total Off-chip Flash used                        0.80 KiB
+
+CPU operators = 3 (60.0%)
+   CPU: Dequantize = tfl.dequantize (inputs [1, 8, 8, 1], outputs [1, 8, 8, 1])
+   CPU: Sin = Sin (inputs [1, 8, 8, 1], outputs [1, 8, 8, 1])
+   CPU: Quantize = tfl.quantize (inputs [1, 8, 8, 1], outputs [1, 8, 8, 1])
+NPU operators = 2 (40.0%)
+   NPU: Conv2DBias = Conv2D (inputs [1, 8, 8, 1] [1, 1, 1, 1] [np.int64(1)], outputs [1, 8, 8, 1])
+   NPU: Conv2DBias = Identity (inputs [1, 8, 8, 1] [1, 1, 1, 1] [np.int64(1)], outputs [1, 8, 8, 1])
+
+Average SRAM bandwidth                           0.31 GB/s
+Input   SRAM bandwidth                           0.00 MB/batch
+Weight  SRAM bandwidth                           0.00 MB/batch
+Output  SRAM bandwidth                           0.00 MB/batch
+Total   SRAM bandwidth                           0.00 MB/batch
+Total   SRAM bandwidth            per input      0.00 MB/inference (batch size 1)
+
+Average Off-chip Flash bandwidth                 0.05 GB/s
+Input   Off-chip Flash bandwidth                 0.00 MB/batch
+Weight  Off-chip Flash bandwidth                 0.00 MB/batch
+Output  Off-chip Flash bandwidth                 0.00 MB/batch
+Total   Off-chip Flash bandwidth                 0.00 MB/batch
+Total   Off-chip Flash bandwidth  per input      0.00 MB/inference (batch size 1)
+
+Neural network macs                               128 MACs/batch
+

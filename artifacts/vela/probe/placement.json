@@ -1,0 +1,156 @@
+{
+  "target": "ethos-u55-128",
+  "system": "Ethos_U55_High_End_Embedded",
+  "memory_mode": "Shared_Sram",
+  "compiler_flags": [
+    "--accelerator-config",
+    "ethos-u55-128",
+    "--config",
+    "Arm/vela.ini",
+    "--system-config",
+    "Ethos_U55_High_End_Embedded",
+    "--memory-mode",
+    "Shared_Sram",
+    "--tensor-allocator",
+    "Greedy",
+    "--show-cpu-operations",
+    "--verbose-performance",
+    "--enable-debug-db"
+  ],
+  "input_ops": [
+    {
+      "index": 0,
+      "op": "CONV_2D",
+      "inputs": [
+        0,
+        3,
+        1
+      ],
+      "outputs": [
+        4
+      ]
+    },
+    {
+      "index": 1,
+      "op": "DEQUANTIZE",
+      "inputs": [
+        4
+      ],
+      "outputs": [
+        5
+      ]
+    },
+    {
+      "index": 2,
+      "op": "SIN",
+      "inputs": [
+        5
+      ],
+      "outputs": [
+        6
+      ]
+    },
+    {
+      "index": 3,
+      "op": "QUANTIZE",
+      "inputs": [
+        6
+      ],
+      "outputs": [
+        7
+      ]
+    },
+    {
+      "index": 4,
+      "op": "CONV_2D",
+      "inputs": [
+        7,
+        3,
+        2
+      ],
+      "outputs": [
+        8
+      ]
+    }
+  ],
+  "compiled_ops": [
+    {
+      "index": 0,
+      "op": "ethos-u",
+      "inputs": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "outputs": [
+        0
+      ]
+    },
+    {
+      "index": 1,
+      "op": "DEQUANTIZE",
+      "inputs": [
+        0
+      ],
+      "outputs": [
+        8
+      ]
+    },
+    {
+      "index": 2,
+      "op": "SIN",
+      "inputs": [
+        8
+      ],
+      "outputs": [
+        2
+      ]
+    },
+    {
+      "index": 3,
+      "op": "QUANTIZE",
+      "inputs": [
+        2
+      ],
+      "outputs": [
+        9
+      ]
+    },
+    {
+      "index": 4,
+      "op": "ethos-u",
+      "inputs": [
+        7,
+        4,
+        5,
+        6,
+        9
+      ],
+      "outputs": [
+        1
+      ]
+    }
+  ],
+  "npu_partitions": 2,
+  "host_ops": [
+    "DEQUANTIZE",
+    "SIN",
+    "QUANTIZE"
+  ],
+  "crossing_edges": [
+    {
+      "tensor": 0,
+      "producer": 0,
+      "consumer": 1,
+      "direction": "npu->cpu"
+    },
+    {
+      "tensor": 9,
+      "producer": 3,
+      "consumer": 4,
+      "direction": "cpu->npu"
+    }
+  ]
+}

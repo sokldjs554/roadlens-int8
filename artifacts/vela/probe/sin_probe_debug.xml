@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<debug source="/workspace/work/roadlens/artifacts/vela/probe/sin_probe.tflite" optimised="/workspace/work/roadlens/artifacts/vela/probe/tmp433tzdgz/sin_probe_vela.tflite">
+  <table name="source"><![CDATA["id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d","ext_key"
+0,"Conv2DBias",1,1,8,8,1,0
+1,"Dequantize",1,1,8,8,1,1
+2,"Sin",1,1,8,8,1,2
+3,"Quantize",1,1,8,8,1,3
+4,"Conv2DBias",1,1,8,8,1,4
+]]></table>
+  <table name="optimised"><![CDATA["id","source_id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d"
+0,0,"Conv2DBias",1,1,8,8,1
+1,1,"Dequantize",1,1,8,8,1
+2,2,"Sin",1,1,8,8,1
+3,3,"Quantize",1,1,8,8,1
+4,4,"Conv2DBias",1,1,8,8,1
+]]></table>
+  <table name="queue"><![CDATA["offset","cmdstream_id","optimised_id"
+328,0,0
+328,1,4
+]]></table>
+  <table name="cmdstream"><![CDATA["id","file_offset"
+0,608
+1,1104
+]]></table>
+</debug>

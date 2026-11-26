@@ -1,0 +1,435 @@
+{
+  "target": "ethos-u55-128",
+  "system": "Ethos_U55_High_End_Embedded",
+  "memory_mode": "Shared_Sram",
+  "compiler_flags": [
+    "--accelerator-config",
+    "ethos-u55-128",
+    "--config",
+    "Arm/vela.ini",
+    "--system-config",
+    "Ethos_U55_High_End_Embedded",
+    "--memory-mode",
+    "Shared_Sram",
+    "--tensor-allocator",
+    "Greedy",
+    "--show-cpu-operations",
+    "--verbose-performance",
+    "--enable-debug-db"
+  ],
+  "input_ops": [
+    {
+      "index": 0,
+      "op": "CONV_2D",
+      "inputs": [
+        0,
+        21,
+        22
+      ],
+      "outputs": [
+        23
+      ]
+    },
+    {
+      "index": 1,
+      "op": "CONV_2D",
+      "inputs": [
+        23,
+        16,
+        7
+      ],
+      "outputs": [
+        24
+      ]
+    },
+    {
+      "index": 2,
+      "op": "CONV_2D",
+      "inputs": [
+        24,
+        15,
+        6
+      ],
+      "outputs": [
+        25
+      ]
+    },
+    {
+      "index": 3,
+      "op": "CONV_2D",
+      "inputs": [
+        25,
+        14,
+        5
+      ],
+      "outputs": [
+        26
+      ]
+    },
+    {
+      "index": 4,
+      "op": "CONV_2D",
+      "inputs": [
+        26,
+        13,
+        4
+      ],
+      "outputs": [
+        27
+      ]
+    },
+    {
+      "index": 5,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        27,
+        20
+      ],
+      "outputs": [
+        28
+      ]
+    },
+    {
+      "index": 6,
+      "op": "CONCATENATION",
+      "inputs": [
+        28,
+        25
+      ],
+      "outputs": [
+        29
+      ]
+    },
+    {
+      "index": 7,
+      "op": "CONV_2D",
+      "inputs": [
+        29,
+        12,
+        3
+      ],
+      "outputs": [
+        30
+      ]
+    },
+    {
+      "index": 8,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        30,
+        19
+      ],
+      "outputs": [
+        31
+      ]
+    },
+    {
+      "index": 9,
+      "op": "CONCATENATION",
+      "inputs": [
+        31,
+        24
+      ],
+      "outputs": [
+        32
+      ]
+    },
+    {
+      "index": 10,
+      "op": "CONV_2D",
+      "inputs": [
+        32,
+        11,
+        2
+      ],
+      "outputs": [
+        33
+      ]
+    },
+    {
+      "index": 11,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        33,
+        18
+      ],
+      "outputs": [
+        34
+      ]
+    },
+    {
+      "index": 12,
+      "op": "CONCATENATION",
+      "inputs": [
+        34,
+        23
+      ],
+      "outputs": [
+        35
+      ]
+    },
+    {
+      "index": 13,
+      "op": "CONV_2D",
+      "inputs": [
+        35,
+        10,
+        1
+      ],
+      "outputs": [
+        36
+      ]
+    },
+    {
+      "index": 14,
+      "op": "CONV_2D",
+      "inputs": [
+        36,
+        9,
+        8
+      ],
+      "outputs": [
+        37
+      ]
+    },
+    {
+      "index": 15,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        37,
+        17
+      ],
+      "outputs": [
+        38
+      ]
+    },
+    {
+      "index": 16,
+      "op": "LOGISTIC",
+      "inputs": [
+        38
+      ],
+      "outputs": [
+        39
+      ]
+    }
+  ],
+  "compiled_ops": [
+    {
+      "index": 0,
+      "op": "CONV_2D",
+      "inputs": [
+        21,
+        25,
+        27
+      ],
+      "outputs": [
+        28
+      ]
+    },
+    {
+      "index": 1,
+      "op": "CONV_2D",
+      "inputs": [
+        28,
+        8,
+        17
+      ],
+      "outputs": [
+        29
+      ]
+    },
+    {
+      "index": 2,
+      "op": "CONV_2D",
+      "inputs": [
+        29,
+        7,
+        16
+      ],
+      "outputs": [
+        30
+      ]
+    },
+    {
+      "index": 3,
+      "op": "CONV_2D",
+      "inputs": [
+        30,
+        6,
+        15
+      ],
+      "outputs": [
+        31
+      ]
+    },
+    {
+      "index": 4,
+      "op": "CONV_2D",
+      "inputs": [
+        31,
+        5,
+        14
+      ],
+      "outputs": [
+        32
+      ]
+    },
+    {
+      "index": 5,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        32,
+        12
+      ],
+      "outputs": [
+        36
+      ]
+    },
+    {
+      "index": 6,
+      "op": "CONCATENATION",
+      "inputs": [
+        36,
+        30
+      ],
+      "outputs": [
+        22
+      ]
+    },
+    {
+      "index": 7,
+      "op": "CONV_2D",
+      "inputs": [
+        22,
+        4,
+        13
+      ],
+      "outputs": [
+        33
+      ]
+    },
+    {
+      "index": 8,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        33,
+        11
+      ],
+      "outputs": [
+        37
+      ]
+    },
+    {
+      "index": 9,
+      "op": "CONCATENATION",
+      "inputs": [
+        37,
+        29
+      ],
+      "outputs": [
+        23
+      ]
+    },
+    {
+      "index": 10,
+      "op": "CONV_2D",
+      "inputs": [
+        23,
+        3,
+        2
+      ],
+      "outputs": [
+        34
+      ]
+    },
+    {
+      "index": 11,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        34,
+        10
+      ],
+      "outputs": [
+        38
+      ]
+    },
+    {
+      "index": 12,
+      "op": "CONCATENATION",
+      "inputs": [
+        38,
+        28
+      ],
+      "outputs": [
+        24
+      ]
+    },
+    {
+      "index": 13,
+      "op": "CONV_2D",
+      "inputs": [
+        24,
+        20,
+        1
+      ],
+      "outputs": [
+        35
+      ]
+    },
+    {
+      "index": 14,
+      "op": "CONV_2D",
+      "inputs": [
+        35,
+        19,
+        18
+      ],
+      "outputs": [
+        26
+      ]
+    },
+    {
+      "index": 15,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        26,
+        9
+      ],
+      "outputs": [
+        39
+      ]
+    },
+    {
+      "index": 16,
+      "op": "LOGISTIC",
+      "inputs": [
+        39
+      ],
+      "outputs": [
+        0
+      ]
+    }
+  ],
+  "npu_partitions": 0,
+  "host_ops": [
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "RESIZE_NEAREST_NEIGHBOR",
+    "CONCATENATION",
+    "CONV_2D",
+    "RESIZE_NEAREST_NEIGHBOR",
+    "CONCATENATION",
+    "CONV_2D",
+    "RESIZE_NEAREST_NEIGHBOR",
+    "CONCATENATION",
+    "CONV_2D",
+    "CONV_2D",
+    "RESIZE_NEAREST_NEIGHBOR",
+    "LOGISTIC"
+  ],
+  "crossing_edges": []
+}

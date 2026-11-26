@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /workspace/work/roadlens/../venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/work/roadlens
+collecting ... collected 19 items
+
+tests/test_bench.py::MetricTests::test_perturbation_geometry_and_immutable_input PASSED [  5%]
+tests/test_bench.py::MetricTests::test_pool_counts_before_dividing_and_empty_union PASSED [ 10%]
+tests/test_bench.py::MetricTests::test_threshold_and_ignore_mask PASSED  [ 15%]
+tests/test_compiler.py::test_counts_tensor_crossings_including_branches PASSED [ 21%]
+tests/test_compiler.py::test_bad_model_does_not_publish_outputs PASSED   [ 26%]
+tests/test_compiler.py::test_real_compiled_graph_and_float_negative_control PASSED [ 31%]
+tests/test_compiler.py::test_mixed_precision_probe_exposes_real_cpu_island PASSED [ 36%]
+tests/test_runtime.py::RuntimeTests::test_actual_corrupt_flatbuffer_is_rejected PASSED [ 42%]
+tests/test_runtime.py::RuntimeTests::test_failed_invoke_reopens_and_recovers_on_next_frame PASSED [ 47%]
+tests/test_runtime.py::RuntimeTests::test_invalid_inputs_do_not_poison_next_valid_frame 
+tests/test_runtime.py::RuntimeTests::test_invalid_inputs_do_not_poison_next_valid_frame PASSED [ 52%]
+tests/test_runtime.py::RuntimeTests::test_invalid_output_rejected PASSED [ 57%]
+tests/test_runtime.py::RuntimeTests::test_quantization_dequantization_and_endpoints PASSED [ 63%]
+tests/test_runtime.py::RuntimeTests::test_shipped_models_accept_next_frame_after_input_rejection 
+tests/test_runtime.py::RuntimeTests::test_shipped_models_accept_next_frame_after_input_rejection PASSED [ 68%]
+tests/test_runtime.py::RuntimeTests::test_unloadable_model_and_bad_tensor_metadata 
+tests/test_runtime.py::RuntimeTests::test_unloadable_model_and_bad_tensor_metadata PASSED [ 73%]
+tests/test_train.py::TrainingTests::test_actual_quantizer_rejects_bad_calibration_and_preserves_published_pair PASSED [ 78%]
+tests/test_train.py::TrainingTests::test_both_exports_execute_and_quantized_graph_has_no_float_tensors PASSED [ 84%]
+tests/test_train.py::TrainingTests::test_committed_partitions_have_unique_drives_and_frame_ids PASSED [ 89%]
+tests/test_train.py::TrainingTests::test_loss_ignores_predictions_at_void_pixels PASSED [ 94%]
+tests/test_train.py::TrainingTests::test_rgb_ground_truth_and_road_lane_distinction PASSED [100%]
+
+============== 19 passed, 5 warnings, 10 subtests passed in 3.58s ==============

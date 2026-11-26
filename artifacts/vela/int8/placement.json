@@ -1,0 +1,236 @@
+{
+  "target": "ethos-u55-128",
+  "system": "Ethos_U55_High_End_Embedded",
+  "memory_mode": "Shared_Sram",
+  "compiler_flags": [
+    "--accelerator-config",
+    "ethos-u55-128",
+    "--config",
+    "Arm/vela.ini",
+    "--system-config",
+    "Ethos_U55_High_End_Embedded",
+    "--memory-mode",
+    "Shared_Sram",
+    "--tensor-allocator",
+    "Greedy",
+    "--show-cpu-operations",
+    "--verbose-performance",
+    "--enable-debug-db"
+  ],
+  "input_ops": [
+    {
+      "index": 0,
+      "op": "CONV_2D",
+      "inputs": [
+        0,
+        22,
+        21
+      ],
+      "outputs": [
+        23
+      ]
+    },
+    {
+      "index": 1,
+      "op": "CONV_2D",
+      "inputs": [
+        23,
+        20,
+        19
+      ],
+      "outputs": [
+        24
+      ]
+    },
+    {
+      "index": 2,
+      "op": "CONV_2D",
+      "inputs": [
+        24,
+        18,
+        17
+      ],
+      "outputs": [
+        25
+      ]
+    },
+    {
+      "index": 3,
+      "op": "CONV_2D",
+      "inputs": [
+        25,
+        16,
+        15
+      ],
+      "outputs": [
+        26
+      ]
+    },
+    {
+      "index": 4,
+      "op": "CONV_2D",
+      "inputs": [
+        26,
+        14,
+        13
+      ],
+      "outputs": [
+        27
+      ]
+    },
+    {
+      "index": 5,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        27,
+        1
+      ],
+      "outputs": [
+        28
+      ]
+    },
+    {
+      "index": 6,
+      "op": "CONCATENATION",
+      "inputs": [
+        28,
+        25
+      ],
+      "outputs": [
+        29
+      ]
+    },
+    {
+      "index": 7,
+      "op": "CONV_2D",
+      "inputs": [
+        29,
+        12,
+        11
+      ],
+      "outputs": [
+        30
+      ]
+    },
+    {
+      "index": 8,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        30,
+        2
+      ],
+      "outputs": [
+        31
+      ]
+    },
+    {
+      "index": 9,
+      "op": "CONCATENATION",
+      "inputs": [
+        31,
+        24
+      ],
+      "outputs": [
+        32
+      ]
+    },
+    {
+      "index": 10,
+      "op": "CONV_2D",
+      "inputs": [
+        32,
+        10,
+        9
+      ],
+      "outputs": [
+        33
+      ]
+    },
+    {
+      "index": 11,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        33,
+        3
+      ],
+      "outputs": [
+        34
+      ]
+    },
+    {
+      "index": 12,
+      "op": "CONCATENATION",
+      "inputs": [
+        34,
+        23
+      ],
+      "outputs": [
+        35
+      ]
+    },
+    {
+      "index": 13,
+      "op": "CONV_2D",
+      "inputs": [
+        35,
+        8,
+        7
+      ],
+      "outputs": [
+        36
+      ]
+    },
+    {
+      "index": 14,
+      "op": "CONV_2D",
+      "inputs": [
+        36,
+        6,
+        5
+      ],
+      "outputs": [
+        37
+      ]
+    },
+    {
+      "index": 15,
+      "op": "RESIZE_NEAREST_NEIGHBOR",
+      "inputs": [
+        37,
+        4
+      ],
+      "outputs": [
+        38
+      ]
+    },
+    {
+      "index": 16,
+      "op": "LOGISTIC",
+      "inputs": [
+        38
+      ],
+      "outputs": [
+        39
+      ]
+    }
+  ],
+  "compiled_ops": [
+    {
+      "index": 0,
+      "op": "ethos-u",
+      "inputs": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "outputs": [
+        0
+      ]
+    }
+  ],
+  "npu_partitions": 1,
+  "host_ops": [],
+  "crossing_edges": []
+}

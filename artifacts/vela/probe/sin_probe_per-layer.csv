@@ -1,0 +1,4 @@
+TFLite_operator,NNG Operator,SRAM Usage,Peak%,Op Cycles,Network%,NPU,SRAM AC,DRAM AC,OnFlash AC,OffFlash AC,MAC Count,Network%,Util%,Name
+CONV_2D,Conv2DBias,160,25.0,296.0,50.0,296.0,64.0,0.0,0.0,0.0,64,50.0,0.16891891891891891,Conv2D
+TFLite_operator,NNG Operator,SRAM Usage,Peak%,Op Cycles,Network%,NPU,SRAM AC,DRAM AC,OnFlash AC,OffFlash AC,MAC Count,Network%,Util%,Name
+CONV_2D,Conv2DBias,160,25.0,296.0,50.0,296.0,64.0,0.0,0.0,0.0,64,50.0,0.16891891891891891,Identity

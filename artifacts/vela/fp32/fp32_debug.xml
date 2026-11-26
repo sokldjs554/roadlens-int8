@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<debug source="/workspace/work/roadlens/artifacts/fp32.tflite" optimised="/workspace/work/roadlens/artifacts/vela/fp32/tmp16_33zm8/fp32_vela.tflite">
+  <table name="source"><![CDATA["id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d","ext_key"
+0,"Conv2DBias",3,3,96,32,12,0
+1,"Conv2DBias",3,3,48,16,20,1
+2,"Conv2DBias",3,3,24,8,32,2
+3,"Conv2DBias",3,3,12,4,48,3
+4,"Conv2DBias",3,3,12,4,48,4
+5,"ResizeNearestNeighbor",1,1,24,8,48,5
+6,"ConcatTFLite",1,1,24,8,80,6
+7,"Conv2DBias",3,3,24,8,32,7
+8,"ResizeNearestNeighbor",1,1,48,16,32,8
+9,"ConcatTFLite",1,1,48,16,52,9
+10,"Conv2DBias",3,3,48,16,20,10
+11,"ResizeNearestNeighbor",1,1,96,32,20,11
+12,"ConcatTFLite",1,1,96,32,32,12
+13,"Conv2DBias",3,3,96,32,12,13
+14,"Conv2DBias",1,1,96,32,1,14
+15,"ResizeNearestNeighbor",1,1,192,64,1,15
+16,"Sigmoid",1,1,192,64,1,16
+]]></table>
+  <table name="optimised"><![CDATA["id","source_id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d"
+0,0,"Conv2DBias",3,3,96,32,12
+1,1,"Conv2DBias",3,3,48,16,20
+2,2,"Conv2DBias",3,3,24,8,32
+3,3,"Conv2DBias",3,3,12,4,48
+4,4,"Conv2DBias",3,3,12,4,48
+5,5,"ResizeNearestNeighbor",1,1,24,8,48
+6,6,"ConcatTFLite",1,1,24,8,80
+7,7,"Conv2DBias",3,3,24,8,32
+8,8,"ResizeNearestNeighbor",1,1,48,16,32
+9,9,"ConcatTFLite",1,1,48,16,52
+10,10,"Conv2DBias",3,3,48,16,20
+11,11,"ResizeNearestNeighbor",1,1,96,32,20
+12,12,"ConcatTFLite",1,1,96,32,32
+13,13,"Conv2DBias",3,3,96,32,12
+14,14,"Conv2DBias",1,1,96,32,1
+15,15,"ResizeNearestNeighbor",1,1,192,64,1
+16,16,"Sigmoid",1,1,192,64,1
+]]></table>
+  <table name="queue"><![CDATA["offset","cmdstream_id","optimised_id"
+]]></table>
+  <table name="cmdstream"><![CDATA["id","file_offset"
+]]></table>
+</debug>

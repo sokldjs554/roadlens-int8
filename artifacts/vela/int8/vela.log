@@ -1,0 +1,74 @@
+
+################################################################################
+Performance for NPU Subgraph main_split_1
+TFLite_operator      NNG Operator         SRAM Usage  Peak%  Op Cycles Network%        NPU    SRAM AC    DRAM AC OnFlash AC OffFlash AC  MAC Count Network%  Util% Name                 
+-------------------- -------------------- ---------- ------ ---------- -------- ---------- ---------- ---------- ---------- ----------- ---------- -------- ------ -------------------- 
+CONV_2D              Conv2DBias                86592  30.64      30336     4.83      27888      30336          0          0           0    1327104     4.69  34.18 road_segmentation_1/re_lu_1/Relu6;road_segmentation_1/batch_normalization_1/batchnorm/add_1;road_segmentation_1/conv2d_1/convolution;road_segmentation_1/batch_normalization_1/batchnorm/sub1 
+CONV_2D              Conv2DBias                76688  27.13      29375     4.68      29375      10992          0          0           0    1658880     5.87  44.12 road_segmentation_1/re_lu_1_2/Relu6;road_segmentation_1/batch_normalization_1_2/batchnorm/add_1;road_segmentation_1/conv2d_1_2/convolution;road_segmentation_1/batch_normalization_1_2/batchnorm/sub 
+CONV_2D              Conv2DBias                87136  30.83      14677     2.34      14677       4656          0          0           0    1105920     3.91  58.87 road_segmentation_1/re_lu_2_1/Relu6;road_segmentation_1/batch_normalization_2_1/batchnorm/add_1;road_segmentation_1/conv2d_2_1/convolution;road_segmentation_1/batch_normalization_2_1/batchnorm/sub 
+CONV_2D              Conv2DBias                96480  34.14      10112     1.61      10112       2592          0          0           0     663552     2.35  51.27 road_segmentation_1/re_lu_3_1/Relu6;road_segmentation_1/batch_normalization_3_1/batchnorm/add_1;road_segmentation_1/conv2d_3_1/convolution;road_segmentation_1/batch_normalization_3_1/batchnorm/sub 
+CONV_2D              Conv2DBias               100944  35.72      19080     3.04      19080       1152          0          0           0     995328     3.52  40.75 road_segmentation_1/re_lu_4_1/Relu6;road_segmentation_1/batch_normalization_4_1/batchnorm/add_1;road_segmentation_1/conv2d_4_1/convolution;road_segmentation_1/batch_normalization_4_1/batchnorm/sub 
+RESIZE_NEAREST_NEIGHBOR ResizeNearestNeighbor      91392  32.34      12600     2.01      12600       2112          0          0           0       9216     0.03   0.57 road_segmentation_1/resizing_1/resize/ResizeNearestNeighbor 
+CONCATENATION        AvgPool                  104448  36.96       9784     1.56       9784       3528          0          0           0       9216     0.03   0.74 road_segmentation_1/concatenate_1/concat0_avgpool 
+CONCATENATION        AvgPool                   95232  33.70       4456     0.71       4456       1848          0          0           0       6144     0.02   1.08 road_segmentation_1/concatenate_1/concat1_avgpool 
+CONV_2D              Conv2DBias               121920  43.14      45912     7.31      45912       5568          0          0           0    4423680    15.64  75.27 road_segmentation_1/re_lu_5_1/Relu6;road_segmentation_1/batch_normalization_5_1/batchnorm/add_1;road_segmentation_1/conv2d_5_1/convolution;road_segmentation_1/batch_normalization_5_1/batchnorm/sub 
+RESIZE_NEAREST_NEIGHBOR ResizeNearestNeighbor     104448  36.96      18648     2.97      18648       4512          0          0           0      24576     0.09   1.03 road_segmentation_1/resizing_1_2/resize/ResizeNearestNeighbor 
+CONCATENATION        AvgPool                  147456  52.17      14536     2.31      14536       6672          0          0           0      24576     0.09   1.32 road_segmentation_1/concatenate_1_2/concat0_avgpool 
+CONCATENATION        AvgPool                  122880  43.48      17000     2.71      17000       7296          0          0           0      15360     0.05   0.71 road_segmentation_1/concatenate_1_2/concat1_avgpool 
+CONV_2D              Conv2DBias               134176  47.48     112020    17.84     112020      22272          0          0           0    7188480    25.42  50.13 road_segmentation_1/re_lu_6_1/Relu6;road_segmentation_1/batch_normalization_6_1/batchnorm/add_1;road_segmentation_1/conv2d_6_1/convolution;road_segmentation_1/batch_normalization_6_1/batchnorm/sub 
+RESIZE_NEAREST_NEIGHBOR ResizeNearestNeighbor     172032  60.87      60984     9.71      60984      17088          0          0           0      61440     0.22   0.79 road_segmentation_1/resizing_2_1/resize/ResizeNearestNeighbor 
+CONCATENATION        AvgPool                  245760  86.96      56435     8.99      56435      29440          0          0           0      61440     0.22   0.85 road_segmentation_1/concatenate_2_1/concat0_avgpool 
+CONCATENATION        AvgPool                  147456  52.17      22044     3.51      22044      16476          0          0           0      36864     0.13   1.31 road_segmentation_1/concatenate_2_1/concat1_avgpool 
+CONV_2D              Conv2DBias               151600  53.64     111404    17.74     111404      25344          0          0           0   10616832    37.54  74.45 road_segmentation_1/re_lu_7_1/Relu6;road_segmentation_1/batch_normalization_7_1/batchnorm/add_1;road_segmentation_1/conv2d_7_1/convolution;road_segmentation_1/batch_normalization_7_1/batchnorm/sub 
+CONV_2D              Conv2DBias                98368  34.81      12288     1.96       6292      12288          0          0           0      36864     0.13   2.34 road_segmentation_1/conv2d_8_1/Add;road_segmentation_1/conv2d_8_1/convolution 
+RESIZE_NEAREST_NEIGHBOR ResizeNearestNeighbor      61440  21.74      26378     4.20      26378      13920          0          0           0      12288     0.04   0.36 road_segmentation_1/resizing_3_1/resize/ResizeNearestNeighbor 
+
+Network summary for int8
+Accelerator configuration               Ethos_U55_128
+System configuration             Ethos_U55_High_End_Embedded
+Memory mode                               Shared_Sram
+Accelerator clock                                 500 MHz
+Design peak SRAM bandwidth                       3.73 GB/s
+Design peak Off-chip Flash bandwidth             0.47 GB/s
+
+Total SRAM used                                276.00 KiB
+Total Off-chip Flash used                       95.03 KiB
+
+CPU operators = 0 (0.0%)
+NPU operators = 19 (100.0%)
+   NPU: Conv2DBias = road_segmentation_1/re_lu_1/Relu6;road_segmentation_1/batch_normalization_1/batchnorm/add_1;road_segmentation_1/conv2d_1/convolution;road_segmentation_1/batch_normalization_1/batchnorm/sub1 (inputs [1, 64, 192, 3] [3, 2, 6, 12] [np.int64(12)], outputs [1, 32, 96, 12])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_1_2/Relu6;road_segmentation_1/batch_normalization_1_2/batchnorm/add_1;road_segmentation_1/conv2d_1_2/convolution;road_segmentation_1/batch_normalization_1_2/batchnorm/sub (inputs [1, 32, 96, 12] [3, 3, 12, 20] [np.int64(20)], outputs [1, 16, 48, 20])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_2_1/Relu6;road_segmentation_1/batch_normalization_2_1/batchnorm/add_1;road_segmentation_1/conv2d_2_1/convolution;road_segmentation_1/batch_normalization_2_1/batchnorm/sub (inputs [1, 16, 48, 20] [3, 3, 20, 32] [np.int64(32)], outputs [1, 8, 24, 32])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_3_1/Relu6;road_segmentation_1/batch_normalization_3_1/batchnorm/add_1;road_segmentation_1/conv2d_3_1/convolution;road_segmentation_1/batch_normalization_3_1/batchnorm/sub (inputs [1, 8, 24, 32] [3, 3, 32, 48] [np.int64(48)], outputs [1, 4, 12, 48])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_4_1/Relu6;road_segmentation_1/batch_normalization_4_1/batchnorm/add_1;road_segmentation_1/conv2d_4_1/convolution;road_segmentation_1/batch_normalization_4_1/batchnorm/sub (inputs [1, 4, 12, 48] [3, 3, 48, 48] [np.int64(48)], outputs [1, 4, 12, 48])
+   NPU: ResizeNearestNeighbor = road_segmentation_1/resizing_1/resize/ResizeNearestNeighbor (inputs [1, 4, 12, 48] [2], outputs [1, 8, 24, 48])
+   NPU: AvgPool = road_segmentation_1/concatenate_1/concat0_avgpool (inputs [1, 8, 24, 48], outputs [1, 8, 24, 80])
+   NPU: AvgPool = road_segmentation_1/concatenate_1/concat1_avgpool (inputs [1, 8, 24, 32], outputs [1, 8, 24, 80])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_5_1/Relu6;road_segmentation_1/batch_normalization_5_1/batchnorm/add_1;road_segmentation_1/conv2d_5_1/convolution;road_segmentation_1/batch_normalization_5_1/batchnorm/sub (inputs [1, 8, 24, 80] [3, 3, 80, 32] [np.int64(32)], outputs [1, 8, 24, 32])
+   NPU: ResizeNearestNeighbor = road_segmentation_1/resizing_1_2/resize/ResizeNearestNeighbor (inputs [1, 8, 24, 32] [2], outputs [1, 16, 48, 32])
+   NPU: AvgPool = road_segmentation_1/concatenate_1_2/concat0_avgpool (inputs [1, 16, 48, 32], outputs [1, 16, 48, 52])
+   NPU: AvgPool = road_segmentation_1/concatenate_1_2/concat1_avgpool (inputs [1, 16, 48, 20], outputs [1, 16, 48, 52])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_6_1/Relu6;road_segmentation_1/batch_normalization_6_1/batchnorm/add_1;road_segmentation_1/conv2d_6_1/convolution;road_segmentation_1/batch_normalization_6_1/batchnorm/sub (inputs [1, 16, 48, 52] [3, 3, 52, 20] [np.int64(20)], outputs [1, 16, 48, 20])
+   NPU: ResizeNearestNeighbor = road_segmentation_1/resizing_2_1/resize/ResizeNearestNeighbor (inputs [1, 16, 48, 20] [2], outputs [1, 32, 96, 20])
+   NPU: AvgPool = road_segmentation_1/concatenate_2_1/concat0_avgpool (inputs [1, 32, 96, 20], outputs [1, 32, 96, 32])
+   NPU: AvgPool = road_segmentation_1/concatenate_2_1/concat1_avgpool (inputs [1, 32, 96, 12], outputs [1, 32, 96, 32])
+   NPU: Conv2DBias = road_segmentation_1/re_lu_7_1/Relu6;road_segmentation_1/batch_normalization_7_1/batchnorm/add_1;road_segmentation_1/conv2d_7_1/convolution;road_segmentation_1/batch_normalization_7_1/batchnorm/sub (inputs [1, 32, 96, 32] [3, 3, 32, 12] [np.int64(12)], outputs [1, 32, 96, 12])
+   NPU: Conv2DBias = road_segmentation_1/conv2d_8_1/Add;road_segmentation_1/conv2d_8_1/convolution (inputs [1, 32, 96, 12] [1, 1, 12, 1] [np.int64(1)], outputs [1, 32, 96, 1])
+   NPU: ResizeNearestNeighbor = road_segmentation_1/resizing_3_1/resize/ResizeNearestNeighbor (inputs [1, 32, 96, 1] [2] [1, 1, 1, 256], outputs [1, 64, 192, 1])
+
+Average SRAM bandwidth                           1.68 GB/s
+Input   SRAM bandwidth                           0.90 MB/batch
+Weight  SRAM bandwidth                           0.72 MB/batch
+Output  SRAM bandwidth                           0.50 MB/batch
+Total   SRAM bandwidth                           2.11 MB/batch
+Total   SRAM bandwidth            per input      2.11 MB/inference (batch size 1)
+
+Average Off-chip Flash bandwidth                 0.07 GB/s
+Input   Off-chip Flash bandwidth                 0.00 MB/batch
+Weight  Off-chip Flash bandwidth                 0.09 MB/batch
+Output  Off-chip Flash bandwidth                 0.00 MB/batch
+Total   Off-chip Flash bandwidth                 0.09 MB/batch
+Total   Off-chip Flash bandwidth  per input      0.09 MB/inference (batch size 1)
+
+Neural network macs                          28277760 MACs/batch
+

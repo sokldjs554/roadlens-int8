@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<debug source="/workspace/work/roadlens/artifacts/int8.tflite" optimised="/workspace/work/roadlens/artifacts/vela/int8/tmpk0k7fmt1/int8_vela.tflite">
+  <table name="source"><![CDATA["id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d","ext_key"
+0,"Conv2DBias",3,3,96,32,12,0
+1,"Conv2DBias",3,3,48,16,20,1
+2,"Conv2DBias",3,3,24,8,32,2
+3,"Conv2DBias",3,3,12,4,48,3
+4,"Conv2DBias",3,3,12,4,48,4
+5,"ResizeNearestNeighbor",1,1,24,8,48,5
+6,"ConcatTFLite",1,1,24,8,80,6
+7,"Conv2DBias",3,3,24,8,32,7
+8,"ResizeNearestNeighbor",1,1,48,16,32,8
+9,"ConcatTFLite",1,1,48,16,52,9
+10,"Conv2DBias",3,3,48,16,20,10
+11,"ResizeNearestNeighbor",1,1,96,32,20,11
+12,"ConcatTFLite",1,1,96,32,32,12
+13,"Conv2DBias",3,3,96,32,12,13
+14,"Conv2DBias",1,1,96,32,1,14
+15,"ResizeNearestNeighbor",1,1,192,64,1,15
+16,"Sigmoid",1,1,192,64,1,16
+]]></table>
+  <table name="optimised"><![CDATA["id","source_id","operator","kernel_w","kernel_h","ofm_w","ofm_h","ofm_d"
+0,6,"AvgPool",1,1,24,8,80
+1,6,"AvgPool",1,1,24,8,80
+2,9,"AvgPool",1,1,48,16,52
+3,9,"AvgPool",1,1,48,16,52
+4,12,"AvgPool",1,1,96,32,32
+5,12,"AvgPool",1,1,96,32,32
+6,16,"Add",1,1,192,64,1
+7,15,"ResizeNearestNeighbor",1,1,192,64,1
+8,11,"ResizeNearestNeighbor",1,1,96,32,20
+9,8,"ResizeNearestNeighbor",1,1,48,16,32
+10,5,"ResizeNearestNeighbor",1,1,24,8,48
+11,0,"Conv2DBias",2,3,96,32,12
+12,1,"Conv2DBias",3,3,48,16,20
+13,2,"Conv2DBias",3,3,24,8,32
+14,3,"Conv2DBias",3,3,12,4,48
+15,4,"Conv2DBias",3,3,12,4,48
+16,7,"Conv2DBias",3,3,24,8,32
+17,10,"Conv2DBias",3,3,48,16,20
+18,13,"Conv2DBias",3,3,96,32,12
+19,14,"Conv2DBias",1,1,96,32,1
+]]></table>
+  <table name="queue"><![CDATA["offset","cmdstream_id","optimised_id"
+328,0,11
+512,0,12
+672,0,13
+840,0,14
+992,0,15
+1068,0,15
+1140,0,15
+1268,0,10
+1348,0,0
+1392,0,1
+1536,0,16
+1608,0,16
+1740,0,9
+1824,0,2
+1860,0,3
+2004,0,17
+2128,0,8
+2220,0,4
+2264,0,5
+2448,0,18
+2616,0,19
+2752,0,7
+]]></table>
+  <table name="cmdstream"><![CDATA["id","file_offset"
+0,95120
+]]></table>
+</debug>
