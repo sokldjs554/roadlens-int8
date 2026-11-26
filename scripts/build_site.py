@@ -1,4 +1,5 @@
 """Build a static replay, its evidence, and an exact-source download from a clean commit."""
+from base64 import b64encode
 import hashlib
 import json
 import posixpath
@@ -44,6 +45,12 @@ def build():
     with tempfile.TemporaryDirectory() as temporary:
         dest = Path(temporary) / "dist"
         shutil.copytree(ROOT / "web", dest)
+        # Some static hosts return the full file for byte-range requests. An inline
+        # media source keeps native seeking available without JavaScript on those hosts.
+        player = dest / "replay.html"
+        video = b64encode((dest / "roadlens-replay.mp4").read_bytes()).decode("ascii")
+        player.write_text(player.read_text().replace('src="roadlens-replay.mp4"',
+                                                    f'src="data:video/mp4;base64,{video}"', 1))
         evidence = dest / "evidence"
         evidence.mkdir()
         for name, target in (("runtime", "runtime"), ("evidence", "index"), ("training", "training"),

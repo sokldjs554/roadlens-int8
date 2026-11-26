@@ -193,8 +193,9 @@ h2 {
   white-space: nowrap;
   margin-bottom: 3px;
   border-radius: 20px;
-  padding: 6px 12px;
-  border: 1px solid #465275;
+  min-height: 44px;
+  padding: 7px 15px;
+  border: 1px solid #7188ca;
   background: #1b2542;
   color: #d9e2ff;
   font-size: 12px;
@@ -905,7 +906,7 @@ footer {
     font-size: 13px;
   }
   .replay {
-    font-size: 10px;
+    font-size: 14px;
     padding: 4px 9px;
   }
   .primary {
@@ -1102,3 +1103,10 @@ footer {
     margin-top: 3px;
   }
 }
+
+.replay:hover, .replay:focus-visible { background: #2c3d68; }
+.film { max-width: 1030px; padding-block: clamp(24px, 5vw, 62px); }
+.film h1 { font-size: clamp(25px, 4vw, 42px); margin: 18px 0 8px; }
+.film p { color: var(--muted); margin: 10px 0; }
+.film a { color: #b8c8ff; text-decoration: underline; text-underline-offset: 4px; }
+.film video { display: block; width: 100%; aspect-ratio: 2; background: #090f21; margin: 20px 0 12px; }

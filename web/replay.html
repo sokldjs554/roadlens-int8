@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>저장 결과 영상 재생 · RoadLens</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="wrap film">
+    <a href="./#explorer">장면 비교로 돌아가기</a>
+    <h1>저장 결과 영상 재생</h1>
+    <p>평가 장면 6개를 3초씩 보여 줍니다. 위쪽은 입력과 정답, 아래쪽은 FP32·INT8 예측과 해당 장면의 도로 IoU입니다.</p>
+    <video controls autoplay muted playsinline preload="metadata" aria-label="KITTI 도로 장면 6개의 저장된 추론 결과">
+      <source src="roadlens-replay.mp4" type="video/mp4">
+      <a href="roadlens-replay.mp4">비교 영상 MP4 열기</a>
+    </video>
+    <a href="roadlens-replay.mp4" download>비교 영상 다운로드 (MP4)</a>
+    <p>도로 영상·정답 출처는 <a href="https://www.cvlibs.net/datasets/kitti/eval_road.php">KITTI Road Benchmark</a>입니다. 도로 벤치마크 저자는 J. Fritsch, T. Kühnl, A. Geiger입니다. 장면에 축소된 마스크와 실측값을 덧붙였습니다. <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></p>
+  </main>
+</body>
+</html>

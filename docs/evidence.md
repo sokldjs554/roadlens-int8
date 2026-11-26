@@ -21,4 +21,6 @@
 
 ## 공개 버전의 검증 자료
 
-[검증 릴리스](https://github.com/sokldjs554/roadlens-int8/releases/tag/v1.0.0)에 최종 커밋, 공개 파일 해시 대조 기록과 화면별 검사 출력을 보존한다. 모바일 검증은 Chromium의 터치·모바일 뷰포트 에뮬레이션이다. 실물 스마트폰이나 iOS Safari의 결과는 포함하지 않는다.
+[검증 릴리스](https://github.com/sokldjs554/roadlens-int8/releases/tag/v1.0.0)에 v1.0.0의 커밋, 공개 파일 해시 대조 기록과 화면별 검사 출력을 보존한다. 모바일 검증은 Chromium의 터치·모바일 뷰포트 에뮬레이션이다. 실물 스마트폰이나 iOS Safari의 결과는 포함하지 않는다.
+
+후속 수정에서는 첫 화면의 재생 표시를 저장된 평가 장면 6개를 담은 18초 영상으로 연결했다. [재생 검사](../tests/replay_smoke.py)는 자바스크립트를 끈 브라우저에서도 진입, 시간 진행, 일시정지, 탐색, 재개, 종료와 복귀를 확인한다. [영상 생성 코드](../scripts/make_replay.py)

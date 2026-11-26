@@ -1,6 +1,6 @@
 # RoadLens · 전방 카메라 도로 분할의 INT8 실행 분석
 
-**[공개 데모](https://roadlens-kitti-int8.ykh13571.chatgpt.site) · [소스 다운로드](https://roadlens-kitti-int8.ykh13571.chatgpt.site/downloads/roadlens-source.zip) · [직무 요건별 근거표](docs/evidence.md) · [실험 원본](artifacts)**
+**[18초 결과 영상](https://roadlens-kitti-int8.ykh13571.chatgpt.site/replay.html) · [공개 데모](https://roadlens-kitti-int8.ykh13571.chatgpt.site) · [소스 다운로드](https://roadlens-kitti-int8.ykh13571.chatgpt.site/downloads/roadlens-source.zip) · [직무 요건별 근거표](docs/evidence.md) · [실험 원본](artifacts)**
 
 실제 주행 이미지에서 도로를 분할하는 79,569개 파라미터의 CNN을 학습하고, 같은 가중치를 FP32·완전 정수 INT8 TFLite로 변환했다. 동일한 평가 62장에서 INT8은 모델 파일을 **71.2%** 줄이고 이 CPU의 순수 추론 지연시간 중앙값을 **56.0%** 줄였다. 원본 장면의 도로 IoU는 77.33%와 77.55%였다. 공개 데모는 **저장된 추론 결과를 재생**한다.
 
@@ -70,6 +70,7 @@ Git checkout에서 `python scripts/build_site.py`를 실행하면 `dist/`에 정
 
 ```bash
 python -m pip install playwright==1.62.0
+python tests/replay_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python tests/browser_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 ```
