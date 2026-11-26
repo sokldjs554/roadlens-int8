@@ -24,9 +24,20 @@
       <div><p class="kicker"><span class="kicker-rule"></span>지원자 직접 실험 · KITTI 도로 분할</p>
         <h1 id="page-title">INT8 보정, 3장으로 기준 충족</h1>
         <p class="subtitle">보정 이미지 3·9·26장을 같은 평가 영상 62장으로 비교했습니다.<br>도로 유형별로 한 장씩 고른 3장은 세 시드 모두 26장 대비 도로 IoU 하락 허용폭 0.5%p를 충족했습니다.</p>
-        <a class="calibration-link" href="https://github.com/sokldjs554/roadlens-int8/blob/d3396f8588c907a7993db7e0958c82d1a2d2d248/artifacts/calibration/README.md">측정표와 장면 비교 · 한 장면에서 IoU가 1.75%p 낮아진 사례</a>
+        <div class="hero-links">
+          <a class="calibration-link" href="evidence/calibration.html">시드별 결과와 검산 자료</a>
+          <a class="replay" href="replay.html"><span aria-hidden="true">▶</span> FP32·INT8 저장 결과 영상 재생 · 21초</a>
+        </div>
       </div>
-      <a class="replay" href="replay.html"><span aria-hidden="true">▶</span> FP32·INT8 저장 결과 영상 재생 · 21초</a>
+      <figure class="cal-scene" aria-labelledby="cal-scene-title">
+        <figcaption id="cal-scene-title"><strong>한 장면에서 도로 IoU 1.75%p 하락</strong><small>umm_000083 · 시드 42</small></figcaption>
+        <div class="cal-tiles">
+          <a href="evidence/calibration.html#scene"><img src="calibration/baseline.png" width="384" height="128" alt="26장 보정 모델의 도로 예측"><span>26장 · 50.72%</span></a>
+          <a href="evidence/calibration.html#scene"><img src="calibration/candidate.png" width="384" height="128" alt="3장 보정 모델의 도로 예측"><span>3장 · 48.97%</span></a>
+          <a href="evidence/calibration.html#scene"><img src="calibration/difference.png" width="384" height="128" alt="두 모델의 예측이 다른 픽셀을 빨간색으로 표시"><span>차이 · 52픽셀</span></a>
+        </div>
+        <a class="calibration-link" href="evidence/calibration.html#scene">입력·정답과 함께 확대 보기</a>
+      </figure>
     </section>
     <p id="load-state" role="status">실험 결과를 불러오는 중입니다.</p>
     <noscript><p>장면 비교에는 자바스크립트가 필요합니다. <a href="results.json">측정 결과 JSON 보기 ↗</a></p></noscript>
@@ -79,6 +90,10 @@
         <div class="table-scroll"><table class="group-table"><caption class="sr">평가 조건별 표본 수와 두 모델의 도로 IoU</caption>
           <thead><tr><th scope="col">평가 조건</th><th scope="col">표본 수</th><th scope="col">FP32</th><th scope="col">INT8</th><th scope="col">차이 <small>(%p)</small></th></tr></thead>
           <tbody id="group-rows"></tbody></table></div>
+      </section>
+      <section class="conditions panel" aria-labelledby="profile-title">
+        <div class="section-head"><h2 id="profile-title">CPU 실측과 NPU 배치</h2><a href="evidence/calibration.html#profile" class="text-link">구간별 측정값</a></div>
+        <p class="metric-note">CPU는 메모리에 있는 PNG의 디코딩부터 이진 마스크 출력까지 측정했습니다. Arm Vela는 INT8 모델을 Ethos-U55의 NPU 구간 1개에 배치했습니다. NPU 보드 실행 시간은 미측정입니다.</p>
       </section>
       <div class="docs"><a href="evidence/runtime.html">Arm Vela 컴파일 분석 <span aria-hidden="true">↗</span></a><a href="evidence/index.html">실험 문서·재현 절차 <span aria-hidden="true">↗</span></a><a href="evidence/results.csv" download>장면별 평가 CSV ↓</a><a href="evidence/latency.csv" download>지연시간 CSV ↓</a><a href="downloads/roadlens-source.zip" download>소스 다운로드 ↓</a></div>
     </div>

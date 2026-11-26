@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 import markdown
+from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +19,7 @@ REPO = "https://github.com/sokldjs554/roadlens-int8"
 STYLE = """
 body{max-width:74rem;margin:0 auto;padding:2rem clamp(1rem,4vw,4rem);background:#10172e;color:#edf0ff;
 font:1rem/1.65 system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}a{color:#a9bfff}
-h1,h2{line-height:1.3}h2{margin-top:2.4rem}table{display:block;overflow:auto;border-collapse:collapse}
+img{max-width:100%;height:auto}h1,h2{line-height:1.3}h2{margin-top:2.4rem}table{display:block;overflow:auto;border-collapse:collapse}
 th,td{border:1px solid #40517f;padding:.6rem .8rem;text-align:left;min-width:6rem}
 pre{overflow:auto;padding:1rem;background:#202e52}nav{display:flex;gap:1rem;flex-wrap:wrap}
 """
@@ -59,6 +60,30 @@ def build():
         for name, target in (("benchmark.json","benchmark.json"),("scene_metrics.csv","results.csv"),
                              ("latency.csv","latency.csv")):
             shutil.copy2(ROOT / "artifacts" / name, evidence / target)
+        generate_page(ROOT / "docs/calibration_review.md", evidence / "calibration.html", sha)
+        # Preserve the recorded panels from the applicant's original comparison sheet.
+        sheet = ROOT / "artifacts/calibration/scene.jpg"
+        assets = dest / "calibration"
+        assets.mkdir()
+        shutil.copy2(sheet, assets / "scene.jpg")
+        with Image.open(sheet) as image:
+            # The 192x64 output is displayed at 2x in show_scene().
+            for index, name in enumerate(("baseline", "candidate", "difference"), start=2):
+                top = 28 + index * (128 + 26) + 18
+                image.crop((0, top, 384, top + 128)).save(assets / f"{name}.png")
+        report = evidence / "calibration.html"
+        body = report.read_text().replace('src="../artifacts/calibration/scene.jpg"',
+                                          'src="../calibration/scene.jpg"')
+        for folder, files in (("calibration", ("runs.csv", "scenes.csv")),
+                              ("calibration_extended", ("runs.csv", "scenes.csv", "selected_ids.json")),
+                              ("pipeline", ("timings.csv", "summary.json"))):
+            folder_out = evidence / folder
+            folder_out.mkdir()
+            for name in files:
+                path = f"artifacts/{folder}/{name}"
+                shutil.copy2(ROOT / path, folder_out / name)
+                body = body.replace(f"{REPO}/blob/{sha}/{path}", f"{folder}/{name}")
+        report.write_text(body)
         downloads = dest / "downloads"
         downloads.mkdir()
         subprocess.run(["git", "archive", "--format=zip", "--prefix=roadlens-int8/",

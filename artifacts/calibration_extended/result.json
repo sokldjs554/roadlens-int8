@@ -1,0 +1,26 @@
+{
+  "model_sha256": "b9d148b1138c3b58921e5d63892f18249b44c29baec970cb02b2f6a08b27e081",
+  "split_sha256": "5d8c7fbd0554b26550eaf691804b143076bcc024af3cab59f08e8ccb65affdb0",
+  "archive_sha256": "45508c51ba09020235eb714e71c7d3ef15b4551be06d996772ecc8a20fc34a34",
+  "published_iou": 0.7754706153865346,
+  "reproduced": true,
+  "margin_pp": 0.5,
+  "sufficient": {
+    "3": true,
+    "9": true
+  },
+  "example": {
+    "count": 3,
+    "seed": 7,
+    "scene": "umm_000083",
+    "road_type": "umm",
+    "valid_pixels": 12282,
+    "changed_vs_26": 60,
+    "iou": 0.48705882352941177,
+    "tp_int8": 1449,
+    "fp_int8": 111,
+    "fn_int8": 1415,
+    "tn_int8": 9307
+  },
+  "example_baseline_iou": 0.5072268907563026
+}

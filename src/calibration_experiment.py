@@ -46,7 +46,7 @@ def show_scene(path, scene, sample, baseline, candidate, count, seed):
     canvas.save(path, quality=90)
 
 
-def run(archive_path, out):
+def run(archive_path, out, seeds=SEEDS):
     split = json.loads((ARTIFACTS / "split.json").read_text())
     cal, test = split["cal"], split["test"]
     if (len(set(cal)) != len(cal) or len(cal) != 26 or len(set(test)) != len(test)
@@ -62,7 +62,7 @@ def run(archive_path, out):
         samples = {key: load_sample(archive, key) for key in test}
     selections = [dict(count=26, seed=None, ids=cal)]
     for size in (3, 9):
-        for seed in SEEDS:
+        for seed in seeds:
             selections.append(dict(count=size, seed=seed, ids=select_calibration_ids(cal, size, seed)))
     published = json.loads((ARTIFACTS / "benchmark.json").read_text())["models"]["int8"]["iou"]
     baseline_masks, scene_rows, summary = {}, [], []
@@ -129,5 +129,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--extended", action="store_true",
+                        help="Repeat with the original three seeds plus fixed seeds 0 through 16")
     args = parser.parse_args()
-    run(args.archive, args.out)
+    seeds = (*SEEDS, *range(17)) if args.extended else SEEDS
+    run(args.archive, args.out, seeds)

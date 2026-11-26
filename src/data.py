@@ -15,13 +15,18 @@ SEED = 731
 CLASSES = ("um", "umm", "uu")
 
 
+def decode_rgb(png):
+    """Decode the camera PNG and prepare the model's normalized RGB input."""
+    with Image.open(io.BytesIO(png)) as image:
+        return np.asarray(image.convert("RGB").resize((WIDTH, HEIGHT), Image.Resampling.BILINEAR),
+                          dtype=np.float32) / 255.0
+
+
 def load_sample(archive: zipfile.ZipFile, id: str):
     """Return RGB float32 [0,1], foreground bool, valid-region bool in camera view."""
     kind, number = id.split("_")
     base = "data_road/training"
-    with Image.open(io.BytesIO(archive.read(f"{base}/image_2/{id}.png"))) as image:
-        x = np.asarray(image.convert("RGB").resize((WIDTH, HEIGHT), Image.Resampling.BILINEAR),
-                       dtype=np.float32) / 255.0
+    x = decode_rgb(archive.read(f"{base}/image_2/{id}.png"))
     with Image.open(io.BytesIO(archive.read(f"{base}/gt_image_2/{kind}_road_{number}.png"))) as mask:
         rgb = np.asarray(mask.convert("RGB").resize((WIDTH, HEIGHT), Image.Resampling.NEAREST))
     return x, rgb[..., 2] > 0, rgb[..., 0] > 0

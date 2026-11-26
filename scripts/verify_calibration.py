@@ -1,4 +1,4 @@
-"""Reconvert the seven models and check the published CSVs against raw INT8 outputs.
+"""Reconvert the models and check the published CSVs against raw INT8 outputs.
 
 Run from the repository root: python -m scripts.verify_calibration --archive work/data/data_road.zip
 """
@@ -17,7 +17,6 @@ from src.data import load_sample, select_calibration_ids
 from src.train import convert
 
 ART = Path("artifacts")
-RESULTS = ART / "calibration"
 FIELDS = ("tn_int8", "fp_int8", "fn_int8", "tp_int8")
 
 
@@ -61,7 +60,9 @@ def evaluate(path, images):
         yield scene, mask, table
 
 
-def verify(archive_path):
+def verify(archive_path, extended=False):
+    results = ART / ("calibration_extended" if extended else "calibration")
+    seeds = (17, 42, 731, *range(17)) if extended else (17, 42, 731)
     split = json.loads((ART / "split.json").read_text())
     check(digest(archive_path) == json.loads((ART / "training.json").read_text())["data_sha256"], "archive")
     cal, test = split["cal"], split["test"]
@@ -72,19 +73,19 @@ def verify(archive_path):
         rgb = {key: load_sample(archive, key)[0] for key in cal}
         images = {key: load_sample(archive, key) for key in test}
     selections = {(26, ""): cal}
-    for seed in (17, 42, 731):
+    for seed in seeds:
         ids = select_calibration_ids(cal, 9, seed)
         check(ids[:3] == select_calibration_ids(cal, 3, seed), f"nested seed {seed}")
         check(set(x.split("_")[0] for x in ids[:3]) == {"um", "umm", "uu"}, f"types, seed {seed}")
         check(len(set(ids)) == len(ids) == 9 and set(ids) <= set(cal), f"IDs, seed {seed}")
         for size in (3, 9):
             selections[size, str(seed)] = ids[:size]
-    listed = json.loads((RESULTS / "selected_ids.json").read_text())
-    check(len(listed) == 7 and selections == {
+    listed = json.loads((results / "selected_ids.json").read_text())
+    check(len(listed) == len(selections) and selections == {
         (r["count"], str(r["seed"]) if r["seed"] is not None else ""): r["ids"] for r in listed}, "saved IDs")
-    runs = read_csv(RESULTS / "runs.csv")
-    scenes = read_csv(RESULTS / "scenes.csv")
-    check(len(runs) == 7 and len(scenes) == 7 * 62, "CSV sizes")
+    runs = read_csv(results / "runs.csv")
+    scenes = read_csv(results / "scenes.csv")
+    check(len(runs) == len(selections) and len(scenes) == len(selections) * len(test), "CSV sizes")
     by_run = {(int(r["count"]), r["seed"]): r for r in runs}
     by_scene = {(int(r["count"]), r["seed"], r["scene"]): r for r in scenes}
     release = {r["source_id"]: r for r in read_csv(ART / "scene_metrics.csv") if r["variant"] == "clean"}
@@ -127,16 +128,18 @@ def verify(archive_path):
             if count != 26:
                 passes[count].append(within)
             print(f"{count:2} {seed or 'all':>3} {100*iou(totals):.6f}% {100*iou(uu):.6f}%")
-    result = json.loads((RESULTS / "result.json").read_text())
+    result = json.loads((results / "result.json").read_text())
     check(result["reproduced"] and reference == result["published_iou"], "published IoU")
     check(result["margin_pp"] == 0.5 and result["sufficient"] ==
           {str(n): all(flags) for n, flags in passes.items()}, "decision")
     example = result["example"]
     check(best[1:] == (example["count"], example["seed"], example["scene"]), "maximum disagreement")
-    print("Verified 7 model hashes, 434 scene rows, both pooled IoUs and the maximum-disagreement scene.")
+    print(f"Verified {len(runs)} model hashes, {len(scenes)} scene rows, both pooled IoUs and the maximum-disagreement scene.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, required=True)
-    verify(parser.parse_args().archive)
+    parser.add_argument("--extended", action="store_true")
+    args = parser.parse_args()
+    verify(args.archive, args.extended)

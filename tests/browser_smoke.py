@@ -31,6 +31,15 @@ def check_view(browser, url, width, height, screenshots, check_links):
         expect(page.locator("#gallery button")).to_have_count(len(scenes))
         expect(page.locator("#modes button")).to_have_count(4)
         expect(page.locator("#metrics tr")).to_have_count(6)
+        for panel in page.locator(".cal-tiles img").all():
+            expect(panel).to_be_in_viewport(ratio=1)
+            assert panel.evaluate("img => img.complete && img.naturalWidth === 384")
+        with context.new_page() as report:
+            report.goto(urljoin(page.url, page.locator(".calibration-link").first.get_attribute("href")))
+            expect(report.get_by_role("table").first).to_contain_text("20/20")
+            expect(report.locator("#profile")).to_be_visible()
+            assert report.locator("main img").evaluate("img => img.naturalWidth === 384")
+            assert report.evaluate("document.documentElement.scrollWidth <= innerWidth")
         summary = page.locator(".glance" if mobile else ".summary")
         assert summary.bounding_box()["y"] + summary.bounding_box()["height"] <= height
         for model in data["models"].values():

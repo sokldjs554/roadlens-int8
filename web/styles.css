@@ -1123,3 +1123,20 @@ footer {
 .film p { color: var(--muted); margin: 10px 0; }
 .film a { color: #b8c8ff; text-decoration: underline; text-underline-offset: 4px; }
 .film video { display: block; width: 100%; aspect-ratio: 2; background: #090f21; margin: 20px 0 12px; }
+
+.intro { align-items: center; }
+.hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: .6rem; }
+.hero-links a { margin: 0; }
+.cal-scene { flex: 0 0 43%; width: 100%; margin: 0; padding: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.cal-scene figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 8px; }
+.cal-scene figcaption strong { color: var(--white); font-size: 1.05rem; }
+.cal-scene small { color: var(--muted); font: .75rem var(--mono); }
+.cal-tiles { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; margin-top: 10px; }
+.cal-tiles img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.cal-tiles span { font-size: .85rem; color: #dde6ff; }
+.cal-tiles a:last-child span { color: var(--peach); }
+.cal-scene .calibration-link { font-size: .875rem; }
+@media(max-width:740px) {
+  .intro { align-items: stretch; gap: 12px; }
+  .cal-scene { padding: 10px; }
+}
