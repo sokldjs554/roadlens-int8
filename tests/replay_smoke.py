@@ -46,6 +46,9 @@ def check(browser, url, profile, device, screenshots):
                 screenshots.mkdir(parents=True, exist_ok=True)
                 player.screenshot(path=screenshots / f"{profile}-{label}.png")
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+        # Some engines consider a paused seek onto the last frame already ended.
+        player.evaluate("v => { v.currentTime = 19 }")
+        wait_for_media(player, "v => !v.seeking && Math.abs(v.currentTime - 19) < 0.02")
         player.evaluate("v => v.play()")
         wait_for_media(player, "v => v.ended")
         page.get_by_role("link", name="장면 비교로 돌아가기").click()

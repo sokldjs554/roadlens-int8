@@ -48,9 +48,10 @@ def summary(benchmark):
     ]
     image = Image.new("RGB", (1280, 640), "#10172e")
     draw = ImageDraw.Draw(image)
-    draw.text((48, 48), "결과 요약   /   FP32 → INT8", font=font(33, True), fill="#afbcff")
+    draw.text((1232, 20), "결과 요약   /   FP32 → INT8", font=font(33, True),
+              fill="#afbcff", anchor="rt")
     body = font(50, True)
-    for text, y in zip(lines, (153, 263, 373)):
+    for text, y in zip(lines, (98, 192, 286)):
         if draw.textbbox((48, y), text, font=body)[2] > image.width - 32:
             raise ValueError(f"Summary line exceeds video safe area: {text}")
         draw.text((48, y), text, font=body, fill="#f2f5ff")
