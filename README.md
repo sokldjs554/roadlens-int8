@@ -49,6 +49,25 @@ python -m pip install -r requirements.lock
 python -m pytest -q
 ```
 
+### 새 이미지 한 장에서 두 모델 실행
+
+저장소에 포함된 전방 카메라 이미지로 바로 실행할 수 있다. 입력 파일을 자기 PNG 또는 JPEG로 바꾸면 두 모델이 로컬 CPU에서 새로 추론한다.
+
+```bash
+python -m src.infer web/scenes/um_000032_clean_input.jpg work/paired-mask.png
+```
+
+결과 PNG는 192×64다. 남색은 두 모델 모두 배경, 청록은 모두 도로, 주황은 FP32만 도로, 보라는 INT8만 도로인 픽셀이다. 표준 출력에는 모델별 도로 픽셀 수와 판정이 다른 픽셀 수가 기록된다. 정답 없는 입력에서는 IoU를 계산할 수 없다. 기존 출력 파일 또는 읽을 수 없는 입력을 지정하면 오류 코드로 종료한다. 샘플 JPEG는 데모용 축소본이므로 평가 원본 PNG와 픽셀값이 다를 수 있다.
+
+### 데이터와 코드의 흐름
+
+| 단계 | 코드 | 출력과 검증 |
+|---|---|---|
+| 주행 단위 분리 → CNN 학습 → FP32·INT8 변환 | [데이터](src/data.py) · [학습·변환](src/train.py) | 분할 ID, 가중치, TFLite 모델 |
+| 새 이미지 → 정규화 → 추론 → 마스크 저장 | [단일 이미지 CLI](src/infer.py) · [CPU 실행기](src/runtime.py) | 두 마스크를 함께 복원할 수 있는 PNG, 입력·모델·출력 오류 검사 |
+| 고정 평가 → 보정 실험 → 실행 구간 분석 | [벤치마크](src/bench.py) · [보정](src/calibration_experiment.py) · [프로파일러](src/profile_pipeline.py) | 같은 62장의 픽셀 통계, 시드·호출별 CSV |
+| NPU 컴파일 → 공개 결과 조회 | [Vela 어댑터](src/compiler.py) · [사이트 빌드](scripts/build_site.py) | 연산 배치, 저장된 장면, 소스 ZIP과 배포 해시 |
+
 동일한 평가 집합에서 추론을 다시 실행한다. 아래 명령은 기록된 원본을 보존하면서 새 결과를 `work/recheck`에 저장한다.
 
 ```bash
@@ -79,7 +98,7 @@ python tests/browser_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 ```
 
-기준 모델의 단위·회귀 검사 19개가 통과했다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [테스트 출력](artifacts/checks/pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
+제출본에서 공식 ZIP을 지정해 실행한 검사 32개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
 
 ## 출처와 기여
 
