@@ -84,7 +84,7 @@
       </section>
       <section id="conditions" class="conditions panel" aria-labelledby="conditions-title">
         <div class="section-head"><div><p class="eyebrow">CONDITION BREAKDOWN</p><h2 id="conditions-title">조건별 도로 IoU</h2></div>
-          <a href="evidence/benchmark.json" class="text-link">원시 측정 자료 ↗</a>
+          <a href="evidence/exposure.html" class="text-link">저조도 개선과 원본 실패 장면</a>
         </div>
         <p class="metric-note">도로 IoU는 예측한 도로와 정답 도로가 겹치는 면적을 두 영역의 합집합 면적으로 나눈 값입니다. 합성 조건은 동일한 평가 영상에 밝기 저하 또는 중앙 가림을 적용했습니다.</p>
         <div class="table-scroll"><table class="group-table"><caption class="sr">평가 조건별 표본 수와 두 모델의 도로 IoU</caption>
@@ -95,7 +95,7 @@
         <div class="section-head"><h2 id="profile-title">CPU 실측과 NPU 배치</h2><a href="evidence/calibration.html#profile" class="text-link">구간별 측정값</a></div>
         <p class="metric-note">CPU는 메모리에 있는 PNG의 디코딩부터 이진 마스크 출력까지 측정했습니다. Arm Vela는 INT8 모델을 Ethos-U55의 NPU 구간 1개에 배치했습니다. NPU 보드 실행 시간은 미측정입니다.</p>
       </section>
-      <div class="docs"><a href="evidence/runtime.html">Arm Vela 컴파일 분석 <span aria-hidden="true">↗</span></a><a href="evidence/index.html">실험 문서·재현 절차 <span aria-hidden="true">↗</span></a><a href="evidence/results.csv" download>장면별 평가 CSV ↓</a><a href="evidence/latency.csv" download>지연시간 CSV ↓</a><a href="downloads/roadlens-source.zip" download>소스 다운로드 ↓</a></div>
+      <div class="docs"><a href="evidence/comparison.html">공고·유사 프로젝트 최종 대조</a><a href="evidence/benchmark.json">측정 원본 JSON</a><a href="evidence/runtime.html">Arm Vela 컴파일 분석 <span aria-hidden="true">↗</span></a><a href="evidence/index.html">실험 문서·재현 절차 <span aria-hidden="true">↗</span></a><a href="evidence/results.csv" download>장면별 평가 CSV ↓</a><a href="evidence/latency.csv" download>지연시간 CSV ↓</a><a href="downloads/roadlens-source.zip" download>소스 다운로드 ↓</a></div>
     </div>
   </main>
   <footer><div class="wrap footer-in"><a href="#main" class="brand"><span class="logomark" aria-hidden="true"></span>RoadLens</a><p>영상·정답 출처 <a href="https://www.cvlibs.net/datasets/kitti/eval_road.php">KITTI Road Benchmark</a> · J. Fritsch, T. Kühnl, A. Geiger<br><a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> · 도로 마스크 시각화 및 크기 조정<br><a href="release.json">배포 버전·파일 해시</a></p></div></footer>

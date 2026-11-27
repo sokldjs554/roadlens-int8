@@ -32,10 +32,14 @@ def generate_page(source, dest, sha):
         if urlsplit(href).scheme or href.startswith('#'):
             return match[0]
         path = posixpath.normpath(str(source.parent.relative_to(ROOT)) + '/' + href)
+        public_docs = {"docs/exposure.md": "exposure.html", "docs/final_comparison.md": "comparison.html",
+                       "docs/calibration_review.md": "calibration.html"}
+        if path in public_docs:
+            return f'href="{public_docs[path]}"'
         return f'href="{REPO}/blob/{sha}/{path.lstrip("/")}"'
     body = re.sub(r'href="([^"]+)"', file_link, body)
     title = source.read_text().splitlines()[0].lstrip("# ")
-    page = f"""<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · RoadLens</title><style>{STYLE}</style><nav><a href="../">RoadLens 장면 비교</a><a href="index.html">실험 근거</a><a href="runtime.html">연산 배치</a><a href="../downloads/roadlens-source.zip">소스 ZIP</a></nav><main>{body}</main></html>"""
+    page = f"""<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · RoadLens</title><style>{STYLE}</style><nav><a href="../">RoadLens 장면 비교</a><a href="index.html">실험 근거</a><a href="runtime.html">연산 배치</a><a href="comparison.html">공고·사례 대조</a><a href="../downloads/roadlens-source.zip">소스 ZIP</a></nav><main>{body}</main></html>"""
     dest.write_text(page)
 
 
@@ -84,6 +88,14 @@ def build():
                 shutil.copy2(ROOT / path, folder_out / name)
                 body = body.replace(f"{REPO}/blob/{sha}/{path}", f"{folder}/{name}")
         report.write_text(body)
+        generate_page(ROOT / "docs/final_comparison.md", evidence / "comparison.html", sha)
+        generate_page(ROOT / "docs/exposure.md", evidence / "exposure.html", sha)
+        exposure = evidence / "exposure"
+        shutil.copytree(ROOT / "artifacts/exposure", exposure)
+        study = evidence / "exposure.html"
+        content = study.read_text().replace('src="../artifacts/exposure/', 'src="exposure/')
+        content = content.replace(f'{REPO}/blob/{sha}/artifacts/exposure/', 'exposure/')
+        study.write_text(content)
         downloads = dest / "downloads"
         downloads.mkdir()
         subprocess.run(["git", "archive", "--format=zip", "--prefix=roadlens-int8/",

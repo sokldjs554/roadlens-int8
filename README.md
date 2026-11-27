@@ -21,6 +21,8 @@
 
 KITTI Road 라벨 289장을 **원본 주행 ID로 분리**했다. 학습 201장(26개 주행), 보정 26장(4개), 평가 62장(7개)이다. Linux x86-64, AMD EPYC 9V74, TensorFlow Lite 2.19.1, CPU/XNNPACK, 배치 1, 스레드 1. 모델마다 별도 프로세스에서 20회 워밍업한 뒤 같은 순서로 62장 × 10회 호출해 측정했다. CPU p50에는 디코딩·리사이즈·입출력 양자화를 제외했다. 모델 로드 시점 RSS는 모델 저장용량이나 보드 SRAM 사용량과 다르다. [원시 시간 CSV](artifacts/latency.csv) · [정확도·메모리 측정 기준](docs/evaluation.md)
 
+[회사 SDK·국내외 13개 사례와의 최종 대조](docs/final_comparison.md)에는 기능, 모델 변환, 실행 장치, 평가 및 데모의 근거를 정리했다. Codex 후속 실험에서 [입력 밝기 규칙](docs/exposure.md)은 합성 저조도에서 개선됐지만 정상 장면 하락 한도를 넘어 기본 경로에 적용하지 않았다.
+
 ## 어디에서 실패했나
 
 원본 무표시 도로의 INT8 IoU는 70.89%였다. 중앙을 가린 합성 입력에서는 74.73%, RGB 밝기를 35%로 줄인 합성 저조도에서는 33.06%였다. 데모의 `um_000028_dim`에서는 두 모델 모두 정답 도로 2,252픽셀 전부를 놓쳤다. 이 데이터는 실제 야간이나 소형 객체 검출 결과를 제공하지 않는다. 검출 임계값은 0.5로 고정했다. [장면별 정답·예측 통계](artifacts/scene_metrics.csv) · [개별 조건과 장면 선택](docs/evaluation.md)
@@ -98,7 +100,7 @@ python tests/browser_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 ```
 
-제출본에서 공식 ZIP을 지정해 실행한 검사 32개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
+제출본에서 공식 ZIP을 지정해 실행한 검사 34개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
 
 ## 출처와 기여
 

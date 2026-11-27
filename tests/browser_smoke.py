@@ -40,6 +40,14 @@ def check_view(browser, url, width, height, screenshots, check_links):
             expect(report.locator("#profile")).to_be_visible()
             assert report.locator("main img").evaluate("img => img.naturalWidth === 384")
             assert report.evaluate("document.documentElement.scrollWidth <= innerWidth")
+            report.goto(urljoin(page.url, "evidence/comparison.html"))
+            expect(report.get_by_role("heading", level=1)).to_contain_text("최종 대조")
+            expect(report.locator("table").nth(1).locator("tbody tr")).to_have_count(13)
+            report.get_by_role("link", name="밝기 규칙 판정").click()
+            expect(report.locator("main")).to_contain_text("기본 적용 보류")
+            assert report.locator("main img").evaluate_all(
+                "imgs => imgs.length === 2 && imgs.every(i => i.complete && i.naturalWidth === 768)")
+            assert report.evaluate("document.documentElement.scrollWidth <= innerWidth")
         summary = page.locator(".glance" if mobile else ".summary")
         assert summary.bounding_box()["y"] + summary.bounding_box()["height"] <= height
         for model in data["models"].values():
