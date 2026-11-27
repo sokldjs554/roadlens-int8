@@ -1,0 +1,243 @@
+{
+  "sequence": "0001TP",
+  "frames": 62,
+  "totals": {
+    "26": {
+      "tp": 3952,
+      "fp": 525,
+      "fn": 117494,
+      "tn": 587417,
+      "iou": 0.032401144534356524,
+      "recall": 0.03254121173196318,
+      "missed_road_fraction": 0.9674587882680368,
+      "frames": 62,
+      "ground_truth_road": 121446,
+      "valid_pixels": 709388,
+      "predicted_road": 4477,
+      "empty_prediction_frames": 44
+    },
+    "3_seed42": {
+      "tp": 3954,
+      "fp": 537,
+      "fn": 117492,
+      "tn": 587405,
+      "iou": 0.0324143528196552,
+      "recall": 0.03255767995652389,
+      "missed_road_fraction": 0.9674423200434761,
+      "frames": 62,
+      "ground_truth_road": 121446,
+      "valid_pixels": 709388,
+      "predicted_road": 4491,
+      "empty_prediction_frames": 45
+    }
+  },
+  "formulas": {
+    "iou": "sum(TP) / (sum(TP) + sum(FP) + sum(FN))",
+    "recall": "sum(TP) / (sum(TP) + sum(FN))"
+  },
+  "selected": [
+    {
+      "position": 1,
+      "frame": "0001TP_008550"
+    },
+    {
+      "position": 32,
+      "frame": "0001TP_009480"
+    },
+    {
+      "position": 62,
+      "frame": "0001TP_010380"
+    }
+  ],
+  "selection_rule": "Numeric frame order; positions 1, N//2+1, N; N=62",
+  "input_sha256": {
+    "scenes.csv": "e4e35e25f27d82d73cdf101e9e169a7cac3881cf591cb92631706e5a7fa44aed",
+    "frames.csv": "26753cef07b817b0861062560b29fe95e7cc74bda76bc3568b7ed3c00a22a2ca"
+  },
+  "script_sha256": "9b20b145091f1d3728f245e5184069feece6ccb0dd8683b6d691b765060529af",
+  "inference": {
+    "frames": 3,
+    "model_sha256": {
+      "26": "432f3e474028eec892ecb25a359e7e20ba41b8b90264ffdb6a1defa589785cc5",
+      "3_seed42": "72d2e83ea56b32c389d8b8b311fc007cedc3f389dbdefdd1e6f472eecf1eab53"
+    },
+    "camvid_commit": "bb68b64e72cb004b3ed927fee0f5624dd8097498",
+    "threshold": 0.5,
+    "input_shape": [
+      64,
+      192,
+      3
+    ],
+    "road_label": 3,
+    "ignored_label": 11,
+    "tensor_contract": {
+      "26": {
+        "input": {
+          "shape": [
+            1,
+            64,
+            192,
+            3
+          ],
+          "dtype": "int8",
+          "scale": 0.003921568859368563,
+          "zero_point": -128
+        },
+        "output": {
+          "shape": [
+            1,
+            64,
+            192,
+            1
+          ],
+          "dtype": "int8",
+          "scale": 0.00390625,
+          "zero_point": -128
+        }
+      },
+      "3_seed42": {
+        "input": {
+          "shape": [
+            1,
+            64,
+            192,
+            3
+          ],
+          "dtype": "int8",
+          "scale": 0.003921568859368563,
+          "zero_point": -128
+        },
+        "output": {
+          "shape": [
+            1,
+            64,
+            192,
+            1
+          ],
+          "dtype": "int8",
+          "scale": 0.00390625,
+          "zero_point": -128
+        }
+      }
+    },
+    "versions": {
+      "tensorflow-cpu": "2.19.1",
+      "keras": "3.15.1",
+      "numpy": "2.1.3",
+      "pillow": "13.0.0"
+    },
+    "frames_verified": [
+      {
+        "frame": "0001TP_008550",
+        "position": 1,
+        "original_size": [
+          480,
+          360
+        ],
+        "counts": {
+          "26": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 2560,
+            "tn": 9018
+          },
+          "3_seed42": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 2560,
+            "tn": 9018
+          }
+        },
+        "ignored_road_predictions": {
+          "26": 0,
+          "3_seed42": 0
+        },
+        "common_missed_road": 2560,
+        "changed_valid_pixels": 0,
+        "source_hashes": {
+          "frame": "0001TP_008550",
+          "sequence": "0001TP",
+          "input_sha256": "dd1b0a7a4e272cfa9dd6c65c5c0e60b6c31a0e1302ee5f86f4795a99a3be5a79",
+          "image_sha256": "b33562864012e8ca23f4d4d95ee18861f20dc2bec1badc534a6f1c03f4285ab5",
+          "label_sha256": "a0c0665af698b6caac93691c3be26cbe6fcbc575e2e488f055cc0c3dc195765d"
+        }
+      },
+      {
+        "frame": "0001TP_009480",
+        "position": 32,
+        "original_size": [
+          480,
+          360
+        ],
+        "counts": {
+          "26": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1278,
+            "tn": 10094
+          },
+          "3_seed42": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1278,
+            "tn": 10094
+          }
+        },
+        "ignored_road_predictions": {
+          "26": 0,
+          "3_seed42": 0
+        },
+        "common_missed_road": 1278,
+        "changed_valid_pixels": 0,
+        "source_hashes": {
+          "frame": "0001TP_009480",
+          "sequence": "0001TP",
+          "input_sha256": "67cb884ef6ff1f65737909407ea0298ddaa73ada4012244ac8cc239f801ac247",
+          "image_sha256": "5ff5c82239e76d0463ffbe9cead163deac298546958de52bfaf9ccaaced1084f",
+          "label_sha256": "f6e050f3b1ed83bfc33605c0b12461a44c5cb94ca83bb1ca903669a1ae73fe2c"
+        }
+      },
+      {
+        "frame": "0001TP_010380",
+        "position": 62,
+        "original_size": [
+          480,
+          360
+        ],
+        "counts": {
+          "26": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 2012,
+            "tn": 9495
+          },
+          "3_seed42": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 2012,
+            "tn": 9495
+          }
+        },
+        "ignored_road_predictions": {
+          "26": 0,
+          "3_seed42": 0
+        },
+        "common_missed_road": 2012,
+        "changed_valid_pixels": 0,
+        "source_hashes": {
+          "frame": "0001TP_010380",
+          "sequence": "0001TP",
+          "input_sha256": "dfc975eceb11c7b3d16cf809193b0d4cee3986f9a5134201eab5e895535ffdd5",
+          "image_sha256": "51303c8d52ddf91914c5d2f90ff0b2d62f0c7af474af12cff615fa0308b84bdd",
+          "label_sha256": "06303459d4b61cacaf3751bf3feaf8a27413ed6124f7691405c73f1b47126850"
+        }
+      }
+    ],
+    "files_sha256": {
+      "0001TP_008550.png": "c28a4758131a3351034be0188eb1f4212080ce559732fa69415d8a5e0d1ba840",
+      "0001TP_009480.png": "de88ae2bdd85efd73d83d70233f220f463b676a19e8912f3539b59c36f6ed903",
+      "0001TP_010380.png": "9951ba7aceaff9a5298565baaebc4cbd1ccebd28aabac165bafefd896febb051",
+      "masks.npz": "dc55ddff873fd832bfd4622c6468307589d0714c1b55823710d6037c59bfb1eb"
+    }
+  }
+}
