@@ -6,6 +6,8 @@
 
 후속 검증에서 Codex는 보정 선택을 20개 시드로 확장하고 CPU에서 PNG 디코딩부터 마스크 출력까지 측정했다. [시드별 편차·CPU 구간별 측정·재현 방법](docs/calibration_review.md)
 
+**외부 주행 검증 · Codex 후속 실험.** CamVid 233프레임에서 3장과 9장은 각각 세 시드 모두 기준을 충족했다. 26장 기준 모델도 한 시퀀스에서는 도로 IoU가 3.24%였다. [시드별 수치와 실패 사례](docs/external.md)
+
 실제 주행 이미지에서 도로를 분할하는 79,569개 파라미터의 CNN을 학습하고, 같은 가중치를 FP32·완전 정수 INT8 TFLite로 변환했다. 동일한 평가 62장에서 INT8은 모델 파일을 **71.2%** 줄이고 이 CPU의 순수 추론 지연시간 중앙값을 **56.0%** 줄였다. 원본 장면의 도로 IoU는 77.33%와 77.55%였다. 공개 데모는 **저장된 추론 결과를 재생**한다.
 
 ![FP32와 INT8의 도로 경계 및 실측 비교](artifacts/checks/desktop-preview.png)
@@ -100,7 +102,7 @@ python tests/browser_smoke.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.site/
 ```
 
-제출본에서 공식 ZIP을 지정해 실행한 검사 34개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
+제출본에서 공식 ZIP을 지정해 실행한 검사 36개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
 
 ## 출처와 기여
 

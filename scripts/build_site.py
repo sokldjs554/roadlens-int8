@@ -32,7 +32,7 @@ def generate_page(source, dest, sha):
         if urlsplit(href).scheme or href.startswith('#'):
             return match[0]
         path = posixpath.normpath(str(source.parent.relative_to(ROOT)) + '/' + href)
-        public_docs = {"docs/exposure.md": "exposure.html", "docs/final_comparison.md": "comparison.html",
+        public_docs = {"docs/external.md": "external.html", "docs/exposure.md": "exposure.html", "docs/final_comparison.md": "comparison.html",
                        "docs/calibration_review.md": "calibration.html"}
         if path in public_docs:
             return f'href="{public_docs[path]}"'
@@ -89,13 +89,12 @@ def build():
                 body = body.replace(f"{REPO}/blob/{sha}/{path}", f"{folder}/{name}")
         report.write_text(body)
         generate_page(ROOT / "docs/final_comparison.md", evidence / "comparison.html", sha)
-        generate_page(ROOT / "docs/exposure.md", evidence / "exposure.html", sha)
-        exposure = evidence / "exposure"
-        shutil.copytree(ROOT / "artifacts/exposure", exposure)
-        study = evidence / "exposure.html"
-        content = study.read_text().replace('src="../artifacts/exposure/', 'src="exposure/')
-        content = content.replace(f'{REPO}/blob/{sha}/artifacts/exposure/', 'exposure/')
-        study.write_text(content)
+        for study_name in ("exposure", "external"):
+            study = evidence / f"{study_name}.html"
+            generate_page(ROOT / f"docs/{study_name}.md", study, sha)
+            shutil.copytree(ROOT / "artifacts" / study_name, evidence / study_name)
+            content = study.read_text().replace(f'src="../artifacts/{study_name}/', f'src="{study_name}/')
+            study.write_text(content.replace(f"{REPO}/blob/{sha}/artifacts/{study_name}/", f"{study_name}/"))
         downloads = dest / "downloads"
         downloads.mkdir()
         subprocess.run(["git", "archive", "--format=zip", "--prefix=roadlens-int8/",

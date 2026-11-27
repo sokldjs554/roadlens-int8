@@ -1,0 +1,29 @@
+{
+  "camvid_commit": "bb68b64e72cb004b3ed927fee0f5624dd8097498",
+  "kitti_images": 289,
+  "duplicate_inputs": 0,
+  "sequences": {
+    "0001TP": 62,
+    "Seq05VD": 171
+  },
+  "frames": 233,
+  "models": 7,
+  "margin_pp": 0.5,
+  "sufficient": {
+    "3": true,
+    "9": true
+  },
+  "worst": {
+    "count": 3,
+    "seed": 42,
+    "sequence": "Seq05VD",
+    "frame": "Seq05VD_f00630",
+    "tp": 2694,
+    "fp": 21,
+    "fn": 912,
+    "tn": 8590,
+    "iou": 0.7427626137303557,
+    "delta_vs_26_pp": -2.095395643782738
+  },
+  "worst_baseline": 0.7637165701681831
+}

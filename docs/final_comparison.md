@@ -1,5 +1,7 @@
 # 보스반도체 AI SW 직무와 RoadLens의 최종 대조
 
+**외부 주행 검증 · Codex 후속 실험.** CamVid 233프레임에서 3장과 9장은 각각 세 시드 모두 기준을 충족했다. 26장 기준 모델도 한 시퀀스에서는 도로 IoU가 3.24%였다. [시드별 수치와 실패 사례](external.md)
+
 2026년 11월 27일 기준. 채용 판단 기준은 서울대학교가 안내한 2026 하반기 신입 공고와 회사 포스터다. 회사 SDK 문서는 업무를 구체화하는 제품 사례로 사용했다. 아래 외부 수치는 작성자 보고값이다. 외부 보드나 서비스를 RoadLens로 다시 벤치마크하지 않았다. [서울대 공지](https://cse.snu.ac.kr/en/community/notice/25870) · [회사 채용 페이지](https://bossemi.ninehire.site/job_posting/PeSqBKiq) · [원본 포스터](https://image.ninehire.com/job-posting/2e441e61-de42-11f1-8efd-a72e55879d43/1268a5e0-de64-11f1-bb65-41c900d9757c.jpg)
 
 ## 공고에서 요구하는 일
@@ -8,7 +10,7 @@
 |---|---|---|
 | 자율주행·Physical AI 모델 개발·최적화 | 고정 크기 192×64 전방 RGB를 도로/배경으로 분할하는 CNN. 주행 ID 분리, 학습, 변환, 새 입력 실행까지 제공한다. [학습](training.md) · [단일 이미지 실행기](../src/infer.py) | 카메라 인지 부분 구현. 다중 객체 구분, 시간축 추적, 경로 계획·제어, 폐루프 주행은 미구현. |
 | CNN·Transformer·LLM/VLM/VLA 등 모델군 | CNN을 CPU와 정수 연산 배치까지 추적했다. 다른 모델군의 입력·연산·평가 변경 사항은 [선정 근거](references.md)에 있다. | 실행한 계열은 CNN. 언어·행동 정답 없는 KITTI Road로 문답 품질이나 과제 성공률을 평가할 수 없다. |
-| 비전 모델 양자화·성능 최적화 | 같은 가중치의 FP32·INT8, 지원자 보정 3·9·26장 비교, Codex 20시드 후속 검증. [보정 장면과 원시 결과](calibration_review.md) | 직접 증거가 가장 강하다. 보정 수에 대한 결론은 한 모델, 한 원본 분할, 명시한 허용폭 안에서 유효하다. |
+| 비전 모델 양자화·성능 최적화 | 같은 가중치의 FP32·INT8, 지원자 보정 3·9·26장 비교, Codex 20시드 후속 검증. [보정 장면과 원시 결과](calibration_review.md) | 직접 증거가 가장 강하다. 보정 수에 대한 결론은 한 모델과 시도한 선택 방식에 한정된다. 독립 CamVid 두 시퀀스의 상대 손실도 확인했다. |
 | LLM/VLM·오디오 양자화 | 회사 Model Zoo의 Qwen3-VL·Whisper-Tiny와 공개 구현의 입력·출력 및 평가 방식을 아래에서 비교했다. | 멀티모달 양자화 및 ASR는 조사 범위. WER, 언어 생성 품질, 토큰 지연시간 실측 없음. |
 | NPU 기반 모델 실행 SW·런타임 | TFLite CPU 인터프리터, 입출력·scale·zero point 검사, 호출 오류 복구. Arm Vela 출력에서 INT8 1 NPU 구간과 혼합 모델의 두 CPU↔NPU 경계를 검산했다. [런타임과 산출물](runtime.md) | CPU 런타임과 Arm용 오프라인 컴파일 구현. Eagle-N 장치 컴파일·로드·메모리 전송·동기화·실행·전력·프로파일은 미검증. |
 | 학습 의지·주도적 문제 해결 | 지원자가 판정 기준을 정하고 사례별 픽셀 불일치를 검산했다. 원래 3시드와 Codex 후속 실험을 구분한다. [판정 계획](calibration_protocol.md) · [작성자 커밋](https://github.com/sokldjs554/roadlens-int8/commit/d3396f8588c907a7993db7e0958c82d1a2d2d248) | 설계 판단과 코드 이력을 확인할 수 있다. 후속 20시드·밝기 실험은 Codex 기여다. |

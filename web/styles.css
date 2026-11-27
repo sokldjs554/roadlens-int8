@@ -1140,3 +1140,5 @@ footer {
   .intro { align-items: stretch; gap: 12px; }
   .cal-scene { padding: 10px; }
 }
+
+.subtitle a { color: inherit; text-underline-offset: .18em; }
