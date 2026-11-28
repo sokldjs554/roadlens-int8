@@ -1,18 +1,22 @@
 # RoadLens · 전방 카메라 도로 분할의 INT8 실행 분석
 
-**[지원자 보정 실험 결과](artifacts/calibration/README.md) · [21초 결과 영상](https://roadlens-kitti-int8.ykh13571.chatgpt.site/replay.html) · [공개 데모](https://roadlens-kitti-int8.ykh13571.chatgpt.site) · [소스 다운로드](https://roadlens-kitti-int8.ykh13571.chatgpt.site/downloads/roadlens-source.zip) · [직무 요건별 근거표](docs/evidence.md) · [실험 원본](artifacts)**
+**[INT8 보정 실험 결과](artifacts/calibration/README.md) · [21초 결과 영상](https://roadlens-kitti-int8.ykh13571.chatgpt.site/replay.html) · [공개 데모](https://roadlens-kitti-int8.ykh13571.chatgpt.site) · [소스 다운로드](https://roadlens-kitti-int8.ykh13571.chatgpt.site/downloads/roadlens-source.zip) · [직무 요건별 근거표](docs/evidence.md) · [실험 원본](artifacts)**
 
-**지원자 직접 실험 · INT8 보정 이미지는 몇 장 필요한가?** 같은 가중치와 평가 62장을 고정하고 보정 3·9·26장을 비교했다. 도로 유형별로 한 장씩 고른 3장은 세 시드 모두 26장 기준 대비 전체 도로 IoU 하락 허용폭 0.5%p를 충족했다. 개별 장면 `umm_000083`에서는 3장 모델의 IoU가 1.75%p 낮아졌다. [장면 비교와 실험 결과](artifacts/calibration/README.md) · [7개 조건 원시 CSV](artifacts/calibration/runs.csv)
+**INT8 보정 이미지는 몇 장 필요한가?** 같은 가중치와 평가 62장을 고정하고 보정 3·9·26장을 비교했다. 도로 유형별로 한 장씩 고른 3장은 세 시드 모두 26장 기준 대비 전체 도로 IoU 하락 허용폭 0.5%p를 충족했다. 개별 장면 `umm_000083`에서는 3장 모델의 IoU가 1.75%p 낮아졌다. [장면 비교와 실험 결과](artifacts/calibration/README.md) · [7개 조건 원시 CSV](artifacts/calibration/runs.csv)
 
-후속 검증에서 Codex는 보정 선택을 20개 시드로 확장하고 CPU에서 PNG 디코딩부터 마스크 출력까지 측정했다. [시드별 편차·CPU 구간별 측정·재현 방법](docs/calibration_review.md)
+보정 이미지 선택을 20개 시드에서 반복해 IoU 편차를 측정했다. CPU에서 PNG 디코딩부터 마스크 출력까지 걸린 시간은 중앙값 기준 10.730ms에서 10.090ms로 6.0% 줄었다. [시드별 편차·CPU 구간별 측정·재현 방법](docs/calibration_review.md)
 
-**외부 주행 검증 · Codex 후속 실험.** CamVid 233프레임에서 3장과 9장은 각각 세 시드 모두 기준을 충족했다. 26장 기준 모델도 한 시퀀스에서는 도로 IoU가 3.24%였다. [시드별 수치와 실패 사례](docs/external.md)
+**외부 주행 검증.** CamVid 233프레임에서 3장과 9장은 각각 세 시드 모두 기준을 충족했다. 26장 기준 모델도 한 시퀀스에서는 도로 IoU가 3.24%였다. [시드별 수치와 실패 사례](docs/external.md)
 
-양자화 전 FP32도 같은 0001TP 62프레임에서 도로 대부분을 놓쳤다. 도로 재현율은 FP32 2.98%, 26장 보정 INT8 3.25%였다. [지원자 FP32 대조 실험](artifacts/external/fp32-0001TP/README.md)
+양자화 전 FP32도 같은 0001TP 62프레임에서 도로 대부분을 놓쳤다. 도로 재현율은 FP32 2.98%, 26장 보정 INT8 3.25%였다. [고정 세 장면의 정답·예측 비교](artifacts/external/review-0001TP/README.md) · [FP32 대조 실험](artifacts/external/fp32-0001TP/README.md)
 
 실제 주행 이미지에서 도로를 분할하는 79,569개 파라미터의 CNN을 학습하고, 같은 가중치를 FP32·완전 정수 INT8 TFLite로 변환했다. 동일한 평가 62장에서 INT8은 모델 파일을 **71.2%** 줄이고 이 CPU의 순수 추론 지연시간 중앙값을 **56.0%** 줄였다. 원본 장면의 도로 IoU는 77.33%와 77.55%였다. 공개 데모는 **저장된 추론 결과를 재생**한다.
 
-![FP32와 INT8의 도로 경계 및 실측 비교](artifacts/checks/desktop-preview.png)
+KITTI 평가 장면 `um_000032`의 입력과 분할 결과다.
+
+| 카메라 입력 | 도로 정답 | FP32 예측 | INT8 예측 |
+|---|---|---|---|
+| ![전방 카메라 입력](web/scenes/um_000032_clean_input.jpg) | ![도로 정답](web/scenes/um_000032_clean_truth.jpg) | ![FP32 도로 예측](web/scenes/um_000032_clean_fp32.jpg) | ![INT8 도로 예측](web/scenes/um_000032_clean_int8.jpg) |
 
 | 평가 및 실행 조건 | FP32 | INT8 |
 |---|---:|---:|
@@ -25,7 +29,7 @@
 
 KITTI Road 라벨 289장을 **원본 주행 ID로 분리**했다. 학습 201장(26개 주행), 보정 26장(4개), 평가 62장(7개)이다. Linux x86-64, AMD EPYC 9V74, TensorFlow Lite 2.19.1, CPU/XNNPACK, 배치 1, 스레드 1. 모델마다 별도 프로세스에서 20회 워밍업한 뒤 같은 순서로 62장 × 10회 호출해 측정했다. CPU p50에는 디코딩·리사이즈·입출력 양자화를 제외했다. 모델 로드 시점 RSS는 모델 저장용량이나 보드 SRAM 사용량과 다르다. [원시 시간 CSV](artifacts/latency.csv) · [정확도·메모리 측정 기준](docs/evaluation.md)
 
-[회사 SDK·국내외 13개 사례와의 최종 대조](docs/final_comparison.md)에는 기능, 모델 변환, 실행 장치, 평가 및 데모의 근거를 정리했다. Codex 후속 실험에서 [입력 밝기 규칙](docs/exposure.md)은 합성 저조도에서 개선됐지만 정상 장면 하락 한도를 넘어 기본 경로에 적용하지 않았다.
+[회사 SDK·국내외 13개 사례와의 최종 대조](docs/final_comparison.md)에는 기능, 모델 변환, 실행 장치, 평가 및 데모의 근거를 정리했다. [입력 밝기 보정 실험](docs/exposure.md)에서는 합성 저조도의 도로 IoU가 개선됐지만, 원본 장면 한 장에서 IoU가 7.68%p 떨어져 기본 적용을 보류했다.
 
 ## 어디에서 실패했나
 
@@ -106,8 +110,6 @@ python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.si
 
 제출본에서 공식 ZIP을 지정해 실행한 검사 40개가 통과했다. ZIP 없이 실행하면 62장 마스크 대조 한 건을 건너뛴다. 전체 검사 명령은 `KITTI_ROAD_ZIP=work/data_road.zip python -m pytest -q`다. 보정 입력 shape 오류로 실제 변환 실패를 유발한 후 기존 모델 보존과 재시도를 검사했다. CPU 런타임의 손상 FlatBuffer·잘못된 RGB·호출 오류 회복도 검사했다. [제출본 테스트 출력](artifacts/checks/submission-pytest.txt) · [브라우저 검사 코드](tests/browser_smoke.py) · [모바일 레이아웃](artifacts/checks/mobile-preview.png) · [배포본 해시](https://roadlens-kitti-int8.ykh13571.chatgpt.site/release.json)
 
-## 출처와 기여
+## 데이터와 참고 자료
 
-지원자는 과제와 기준을 정하고 저장소를 개설했으며, [보정 장수 비교 실험](artifacts/calibration/README.md)을 설계·구현하고 결과를 검산했다. 지원자는 CamVid 0001TP의 62프레임을 검산하고 고정한 세 장면의 두 모델 출력을 다시 비교했다. [지원자 검산 보고서](artifacts/external/review-0001TP/README.md)
-
-Codex는 기준 모델·벤치마크·데모를 제작하고, 지원자 실험을 재현해 공개 버전에 통합했다. 기존 저장소 6곳은 커밋 고정 코드·테스트·결과·데모를 조사해 실험 방법을 참고했다. [공고와 역할 기록](docs/brief.md) · [선행 저장소 비교](docs/prior.md) · [국내외 디자인·모델군 조사](docs/references.md) · [KITTI 데이터 이용 조건](NOTICE.md)
+KITTI Road의 주행 영상과 도로 정답을 학습·보정·평가에 사용하고, CamVid의 두 시퀀스로 외부 평가를 수행했다. [데이터 출처와 이용 조건](NOTICE.md) · [선행 저장소 6곳의 실험 방법](docs/prior.md) · [공개 모델과 성능 도구 비교](docs/references.md)
