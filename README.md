@@ -106,4 +106,6 @@ python scripts/verify_release.py https://roadlens-kitti-int8.ykh13571.chatgpt.si
 
 ## 출처와 기여
 
-지원자는 과제와 기준을 정하고 저장소를 개설했으며, [보정 장수 비교 실험](artifacts/calibration/README.md)을 설계·구현하고 결과를 검산했다. Codex는 기준 모델·벤치마크·데모를 제작하고, 지원자 실험을 재현해 공개 버전에 통합했다. 기존 저장소 6곳은 커밋 고정 코드·테스트·결과·데모를 조사해 실험 방법을 참고했다. [공고와 역할 기록](docs/brief.md) · [선행 저장소 비교](docs/prior.md) · [국내외 디자인·모델군 조사](docs/references.md) · [KITTI 데이터 이용 조건](NOTICE.md)
+지원자는 과제와 기준을 정하고 저장소를 개설했으며, [보정 장수 비교 실험](artifacts/calibration/README.md)을 설계·구현하고 결과를 검산했다. 지원자는 CamVid 0001TP의 62프레임을 검산하고 고정한 세 장면의 두 모델 출력을 다시 비교했다. [지원자 검산 보고서](artifacts/external/review-0001TP/README.md)
+
+Codex는 기준 모델·벤치마크·데모를 제작하고, 지원자 실험을 재현해 공개 버전에 통합했다. 기존 저장소 6곳은 커밋 고정 코드·테스트·결과·데모를 조사해 실험 방법을 참고했다. [공고와 역할 기록](docs/brief.md) · [선행 저장소 비교](docs/prior.md) · [국내외 디자인·모델군 조사](docs/references.md) · [KITTI 데이터 이용 조건](NOTICE.md)
