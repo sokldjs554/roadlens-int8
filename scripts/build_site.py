@@ -34,6 +34,7 @@ def generate_page(source, dest, sha):
         path = posixpath.normpath(str(source.parent.relative_to(ROOT)) + '/' + href)
         public_docs = {"docs/external.md": "external.html", "docs/exposure.md": "exposure.html", "docs/final_comparison.md": "comparison.html",
                        "docs/calibration_review.md": "calibration.html",
+                       "artifacts/external/fp32-0001TP/README.md": "camvid-fp32.html",
                        "artifacts/external/review-0001TP/README.md": "camvid-review.html"}
         if path in public_docs:
             return f'href="{public_docs[path]}"'
@@ -98,6 +99,7 @@ def build():
             shutil.copytree(ROOT / "artifacts" / study_name, evidence / study_name)
             content = study.read_text().replace(f'src="../artifacts/{study_name}/', f'src="{study_name}/')
             study.write_text(content.replace(f"{REPO}/blob/{sha}/artifacts/{study_name}/", f"{study_name}/"))
+        generate_page(ROOT / "artifacts/external/fp32-0001TP/README.md", evidence / "camvid-fp32.html", sha)
         review_assets = Path("external/review-0001TP")
         review = evidence / "camvid-review.html"
         generate_page(ROOT / "artifacts" / review_assets / "README.md", review, sha)
